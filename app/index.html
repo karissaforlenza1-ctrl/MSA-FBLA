@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#1d3253" />
+  <meta name="description" content="MSA FBLA mobile app." />
+  <title>MSA FBLA App</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="FL_FBLA_logo.png" type="image/png" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+  <div id="authScreen" class="auth-screen">
+    <div class="auth-card">
+      <div class="auth-logo"><img src="FL_FBLA_logo.png" alt="Florida FBLA logo" /></div>
+      <h1>MSA FBLA</h1>
+      <div class="auth-toggle" aria-label="Authentication mode switcher">
+        <button class="toggle-btn active" data-mode="login" type="button">Login</button>
+        <button class="toggle-btn" data-mode="signup" type="button">Sign up</button>
+      </div>
+
+      <button id="coordinatorLink" class="coordinator-link" type="button">FBLA coordinator? Click here!</button>
+
+      <div id="loginPane" class="auth-pane">
+        <form id="loginForm">
+          <label>
+            <span>Email</span>
+            <input id="loginUsername" type="email" placeholder="Enter your email" required />
+          </label>
+          <label>
+            <span>Password</span>
+            <input id="loginPassword" type="password" placeholder="Enter password" required />
+          </label>
+          <button type="submit">Access app</button>
+        </form>
+      </div>
+
+      <div id="signupPane" class="auth-pane hidden">
+        <form id="signupForm">
+          <label>
+            <span>Full name</span>
+            <input id="signupName" type="text" placeholder="Your full name" required />
+          </label>
+          <label>
+            <span>Username</span>
+            <input id="signupUsername" type="text" placeholder="Choose a username" required />
+          </label>
+          <label>
+            <span>Email</span>
+            <input id="signupEmail" type="email" placeholder="Your email" required />
+          </label>
+          <label>
+            <span>Password</span>
+            <input id="signupPassword" type="password" placeholder="Create a password" required />
+          </label>
+          <label>
+            <span>FBLA join code</span>
+            <input id="signupJoinCode" type="text" placeholder="Enter chapter join code" required />
+          </label>
+          <button type="submit">Create account</button>
+        </form>
+      </div>
+
+      <div id="coordinatorPane" class="auth-pane hidden">
+        <form id="coordinatorForm">
+          <label>
+            <span>Coordinator email</span>
+            <input id="coordinatorEmail" type="email" placeholder="Coordinator email" required />
+          </label>
+          <label>
+            <span>Coordinator password</span>
+            <input id="coordinatorPassword" type="password" placeholder="Coordinator password" required />
+          </label>
+          <label>
+            <span>Coordinator access code</span>
+            <input id="coordinatorCode" type="password" placeholder="Enter coordinator access code" required />
+          </label>
+          <button type="submit">Enter coordinator portal</button>
+        </form>
+        <button id="backToMemberLoginBtn" class="auth-back-btn" type="button">Back to member login</button>
+      </div>
+
+      <button id="notificationsBtn" class="notifications-btn" type="button" aria-pressed="false">Receive FBLA notifications</button>
+
+      <p id="authMessage" class="auth-message" aria-live="polite"></p>
+    </div>
+  </div>
+
+  <div id="coordinatorShell" class="coordinator-shell hidden">
+    <header class="coordinator-topbar">
+      <div>
+        <span class="eyebrow gold">Private chapter view</span>
+        <h1>MSA FBLA coordinator portal</h1>
+      </div>
+      <button id="coordinatorLogoutBtn" class="logout-btn" type="button">Exit portal</button>
+    </header>
+    <main class="coordinator-main">
+      <div class="coordinator-welcome">
+        <p class="eyebrow">Coordinator dashboard</p>
+        <h2>Member overview</h2>
+        <p>Review students who created an account and the FBLA events they added to their in-app calendars.</p>
+      </div>
+      <div class="coordinator-stats">
+        <div class="stat"><strong id="studentCount">0</strong><span>Members</span></div>
+        <div class="stat accent"><strong id="calendarSelectionCount">0</strong><span>Calendar selections</span></div>
+      </div>
+      <section class="student-directory">
+        <div class="directory-header">
+          <h2>Student accounts</h2>
+          <button id="refreshStudentsBtn" class="calendar-add-all" type="button">Refresh list</button>
+        </div>
+        <div id="studentList" class="student-list"></div>
+      </section>
+      <section class="student-directory coordinator-messages-panel">
+        <h2>Message a student</h2>
+        <label class="field-label" for="coordinatorStudentSelect">Choose a student</label>
+        <select id="coordinatorStudentSelect" class="message-input"></select>
+        <label class="field-label" for="coordinatorMessage">Message</label>
+        <textarea id="coordinatorMessage" class="message-input message-textarea" rows="4" maxlength="500" placeholder="Write a message to this student..."></textarea>
+        <button id="sendCoordinatorMessageBtn" class="message-send-btn" type="button">Send to student</button>
+        <p id="coordinatorMessageStatus" class="message-status" aria-live="polite"></p>
+        <h2 class="inbox-heading">Messages from members</h2>
+        <div id="memberMessages" class="member-messages"></div>
+      </section>
+    </main>
+  </div>
+
+  <div id="appShell" class="app-shell hidden">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo"><img src="FL_FBLA_logo.png" alt="Florida FBLA logo" /></div>
+        <div>
+          <span class="eyebrow">FBLA</span>
+          <strong>Manatee School</strong>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <span id="userNameChip" class="user-chip">Member</span>
+        <button id="shareAppBtn" class="share-btn" type="button">Share</button>
+        <button id="logoutBtn" class="logout-btn" type="button">Log out</button>
+      </div>
+    </header>
+
+    <div id="welcomeModal" class="welcome-modal hidden" role="dialog" aria-modal="true" aria-labelledby="welcomeModalTitle">
+      <div class="welcome-modal-card">
+        <div class="welcome-modal-mark"><img src="FL_FBLA_logo.png" alt="Florida FBLA logo" /></div>
+        <p class="eyebrow gold">Member access</p>
+        <h2 id="welcomeModalTitle">Welcome!</h2>
+        <p id="welcomeModalText">Your FBLA dashboard is ready.</p>
+        <button id="closeWelcomeModalBtn" class="message-send-btn" type="button">Enter app</button>
+      </div>
+    </div>
+
+    <main class="app-main">
+      <section id="homeTab" class="tab-panel active">
+        <div class="welcome-card">
+          <p class="eyebrow gold">Welcome back</p>
+          <h1 id="welcomeName">Hello!</h1>
+          <p id="welcomeText" class="hero-copy">Your chapter dashboard is ready.</p>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat">
+            <strong>Leadership</strong>
+            <span>Growth</span>
+          </div>
+          <div class="stat accent">
+            <strong>Business</strong>
+            <span>Skills</span>
+          </div>
+          <div class="stat">
+            <strong>Community</strong>
+            <span>Impact</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="eventsTab" class="tab-panel">
+        <div class="event-header-card">
+          <p class="eyebrow gold">Upcoming chapter dates</p>
+          <h2>FBLA events</h2>
+          <p>View chapter meetings, conferences, competitions, and service opportunities. Paper forms are used for event registration.</p>
+        </div>
+
+        <div class="event-list" id="eventsList"></div>
+      </section>
+
+      <section id="calendarTab" class="tab-panel">
+        <div class="event-header-card">
+          <p class="eyebrow gold">Your schedule</p>
+          <h2>FBLA calendar</h2>
+          <p>Keep track of FBLA dates and add events to your in-app calendar.</p>
+        </div>
+
+        <div class="calendar-card">
+          <div class="calendar-header">
+            <h3>My FBLA calendar</h3>
+            <button class="calendar-add-all" type="button" id="addAllToCalendarBtn">Add all events</button>
+          </div>
+          <div class="month-controls">
+            <button class="month-button" type="button" id="previousMonthBtn" aria-label="Previous month">&#8592;</button>
+            <strong id="calendarMonthLabel">September 2026</strong>
+            <button class="month-button" type="button" id="nextMonthBtn" aria-label="Next month">&#8594;</button>
+          </div>
+          <div class="calendar-weekdays" aria-hidden="true">
+            <span>Sun</span>
+            <span>Mon</span>
+            <span>Tue</span>
+            <span>Wed</span>
+            <span>Thu</span>
+            <span>Fri</span>
+            <span>Sat</span>
+          </div>
+          <div id="calendarGrid" class="calendar-grid" aria-label="Monthly calendar"></div>
+          <div id="calendarEvents" class="calendar-events"></div>
+        </div>
+      </section>
+
+      <section id="officersTab" class="tab-panel">
+        <div class="event-header-card">
+          <p class="eyebrow gold">Chapter support</p>
+          <h2>Talk to your officers</h2>
+          <p>Select an officer and send a message from the app. Messages are saved on this device in the current prototype.</p>
+        </div>
+
+        <div class="message-card">
+          <label class="field-label" for="officerSelect">Choose an officer</label>
+          <select id="officerSelect" class="message-input"></select>
+          <label class="field-label" for="officerReason">Reason for messaging</label>
+          <select id="officerReason" class="message-input"></select>
+          <label class="field-label" for="officerMessage">Your message</label>
+          <textarea id="officerMessage" class="message-input message-textarea" rows="5" placeholder="Write your message..." maxlength="500"></textarea>
+          <button id="sendOfficerMessageBtn" class="message-send-btn" type="button">Send message</button>
+          <p id="messageStatus" class="message-status" aria-live="polite"></p>
+        </div>
+
+        <div class="sent-messages-card">
+          <h3>Messages from your coordinator</h3>
+          <div id="coordinatorMessages"></div>
+        </div>
+
+        <div class="sent-messages-card">
+          <h3>Messages from officers</h3>
+          <div id="officerMessages"></div>
+        </div>
+
+        <div class="sent-messages-card">
+          <h3>Messages on this device</h3>
+          <div id="sentMessages"></div>
+        </div>
+      </section>
+
+      <section id="profileTab" class="tab-panel">
+        <div class="profile-card">
+          <div class="card-header">
+            <span>Profile</span>
+            <strong id="profileUsername">@member</strong>
+          </div>
+          <div class="profile-avatar">MSA</div>
+          <ul class="profile-list">
+            <li><strong>Name:</strong> <span id="profileName">Member name</span></li>
+            <li><strong>Email:</strong> <span id="profileEmail">member@example.com</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="contactTab" class="tab-panel">
+        <div class="contact-card">
+          <h2>Contact</h2>
+          <p>700 Haben Boulevard<br />Palmetto, FL 34221</p>
+          <a href="tel:+19417216800">(941) 721-6800</a>
+          <a href="mailto:themsafbla@msa.raeschools.org">themsafbla@msa.raeschools.org</a>
+        </div>
+
+        <div class="quick-links">
+          <a href="https://www.facebook.com/MsaFBLA" target="_blank" rel="noopener">Facebook</a>
+          <a href="https://www.instagram.com/the_msa_fbla/" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://www.msfta.org/" target="_blank" rel="noopener">School site</a>
+        </div>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Main navigation">
+      <button class="nav-btn active" data-tab="homeTab" type="button">Home</button>
+      <button class="nav-btn" data-tab="eventsTab" type="button">Events</button>
+      <button class="nav-btn" data-tab="calendarTab" type="button">Calendar</button>
+      <button class="nav-btn" data-tab="officersTab" type="button">Officers</button>
+      <button class="nav-btn" data-tab="profileTab" type="button">Profile</button>
+      <button class="nav-btn" data-tab="contactTab" type="button">Contact</button>
+    </nav>
+  </div>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: 'AIzaSyB8UXwNwuZdzlLdbh0bDeaZ8u3VKNyYPwY',
+      authDomain: 'msa-fbla-app.firebaseapp.com',
+      projectId: 'msa-fbla-app',
+      storageBucket: 'msa-fbla-app.firebasestorage.app',
+      messagingSenderId: '870202780641',
+      appId: '1:870202780641:web:b63baddddc9e50f51140a0'
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const firebaseAuth = firebase.auth();
+    const firestore = firebase.firestore();
+
+    const USERS_KEY = 'msa_fbla_users';
+    const CURRENT_USER_KEY = 'msa_fbla_current_user';
+    const CALENDAR_KEY = 'msa_fbla_calendar_events';
+    const NOTIFICATIONS_KEY = 'msa_fbla_notifications';
+    const MESSAGES_KEY = 'msa_fbla_officer_messages';
+    const COORDINATOR_MESSAGES_KEY = 'msa_fbla_coordinator_messages';
+    const JOIN_CODE = 'MSAFBLA2026!';
+    const COORDINATOR_CODE = 'MSAFBLACOORDINATOR2026!';
+
+    const OFFICERS = [
+      { id: 'president', name: 'Cabella King', role: 'President' },
+      { id: 'vice-president', name: 'Natalie Garcia', role: 'Vice President' },
+      { id: 'digital-media-web', name: 'Karissa Forlenza', role: 'Digital Media Manager and Web Developer' },
+      { id: 'digital-media', name: 'Sarah Zorzoman', role: 'Digital Media Manager' },
+      { id: 'secretary', name: 'Dawson Noailles', role: 'Secretary' },
+      { id: 'community-outreach', name: 'Laila Abercrombie', role: 'Community Outreach Coordinator' },
+      { id: 'treasurer', name: 'Diana Gomez', role: 'Treasurer' },
+      { id: 'fundraising-partnerships', name: 'Nina Zhang', role: 'Fundraising and Business Partnership Coordinator' },
+      { id: 'reporter-publications', name: 'Paulina Annaorazov', role: 'Reporter and National FBLA Publication Manager' },
+      { id: 'historian-publications', name: 'Melliana Morells', role: 'Historian and Florida FBLA Publication Manager' },
+      { id: 'competitive-events', name: 'Mikain Dor', role: 'Competitive Events Manager' }
+    ];
+
+    const OFFICER_REASONS = {
+      president: ['Chapter question', 'Leadership support', 'Meeting or decision question'],
+      'vice-president': ['Chapter question', 'Event or program help', 'Member support'],
+      'digital-media-web': ['Website question', 'Digital content idea', 'Technical issue'],
+      'digital-media': ['Social media question', 'Digital content idea', 'Chapter announcement'],
+      secretary: ['Meeting minutes', 'Attendance question', 'Chapter records'],
+      'community-outreach': ['Service opportunity', 'Community partnership', 'Volunteer question'],
+      treasurer: ['Fundraising question', 'Money or dues question', 'Budget question'],
+      'fundraising-partnerships': ['Fundraising idea', 'Business partnership', 'Sponsor question'],
+      'reporter-publications': ['Chapter news', 'National publication', 'Story or announcement'],
+      'historian-publications': ['Chapter history', 'Florida publication', 'Photo or archive question'],
+      'competitive-events': ['Competition question', 'Event preparation', 'Competitive event support']
+    };
+
+    const EVENT_ITEMS = [
+      {
+        id: 'suncoast-cleanup',
+        title: 'Suncoast Reef and Beach Cleanup',
+        type: 'Service event',
+        date: '2026-09-12',
+        time: '7:15 AM - 5:00 PM',
+        location: 'Suncoast Reef',
+        description: 'Community cleanup event focused on environmental impact and service learning.',
+        emailLink: 'mailto:themsafbla@msa.raeschools.org?subject=Suncoast%20Reef%20and%20Beach%20Cleanup'
+      },
+      {
+        id: 'stuff-the-bus',
+        title: 'Stuff the Bus',
+        type: 'Service event',
+        date: '2026-10-11',
+        time: 'All day',
+        location: 'Publix of Palmetto, 1101 8th Ave West',
+        description: 'A community service event supporting local families and donations.',
+        emailLink: 'mailto:themsafbla@msa.raeschools.org?subject=Stuff%20the%20Bus'
+      },
+      {
+        id: 'wreaths-across-america',
+        title: 'Wreaths Across America',
+        type: 'Community service',
+        date: '2026-12-19',
+        time: 'TBD',
+        location: 'Sarasota National Cemetery',
+        description: 'Honor veterans and support a meaningful service project in remembrance.',
+        emailLink: 'mailto:themsafbla@msa.raeschools.org?subject=Wreaths%20Across%20America'
+      },
+      {
+        id: 'fall-leadership-conference',
+        title: 'FBLA Fall Leadership Conference',
+        type: 'Conference',
+        date: '2026-11-13',
+        displayDate: 'November 13-15, 2026',
+        time: 'Conference dates',
+        location: 'Port Canaveral, Florida',
+        description: 'Start the conference season by connecting with Florida FBLA members, building leadership skills, and representing MSA FBLA.',
+        emailLink: 'mailto:themsafbla@msa.raeschools.org?subject=FBLA%20Fall%20Leadership%20Conference'
+      },
+      {
+        id: 'state-leadership-conference',
+        title: 'FL FBLA State Leadership Conference',
+        type: 'Conference',
+        date: '2027-03-18',
+        displayDate: 'March 18-21, 2027',
+        time: 'Conference dates',
+        location: 'Orlando, Florida',
+        description: 'Build leadership skills, connect with members from across Florida, and represent MSA FBLA at the state level.',
+        emailLink: 'mailto:themsafbla@msa.raeschools.org?subject=FL%20FBLA%20State%20Leadership%20Conference'
+      },
+      {
+        id: 'national-conference',
+        title: 'National FBLA Leadership Conference',
+        type: 'Conference',
+        date: '2027-06-23',
+        displayDate: 'June 23-26, 2027',
+        time: 'Conference dates',
+        location: 'Columbus, Ohio',
+        description: 'Celebrate achievement, compete with top chapters, and experience the national FBLA community.',
+        emailLink: 'mailto:themsafbla@msa.raeschools.org?subject=National%20FBLA%20Leadership%20Conference'
+      },
+      {
+        id: 'district-competition-window',
+        title: 'District competition window',
+        type: 'Competition',
+        date: '2026-12-07',
+        displayDate: 'December 7-22, 2026',
+        time: 'Deadline window',
+        location: 'District competition',
+        description: 'FBLA competitive events competition window for chapter members.',
+        emailLink: 'mailto:themsafbla@msa.raeschools.org?subject=District%20competition%20window'
+      },
+      {
+        id: 'district-projects',
+        title: 'District FBLA projects due',
+        type: 'Deadline',
+        date: '2026-12-15',
+        displayDate: 'December 15, 2026',
+        time: 'Due date',
+        location: 'District submission',
+        description: 'Deadline for district FBLA project submissions.',
+        emailLink: 'mailto:themsafbla@msa.raeschools.org?subject=District%20FBLA%20projects%20due'
+      },
+      {
+        id: 'district-performance',
+        title: 'District performance competitions',
+        type: 'Competition',
+        date: '2027-01-09',
+        displayDate: 'January 9, 2027',
+        time: 'Performance day',
+        location: 'LWRH',
+        description: 'Performance-based competitions for FBLA members to showcase prepared events.',
+        emailLink: 'mailto:themsafbla@msa.raeschools.org?subject=District%20performance%20competitions'
+      },
+      {
+        id: 'district-awards',
+        title: 'District FBLA awards ceremony',
+        type: 'Awards',
+        date: '2027-01-15',
+        displayDate: 'January 15, 2027',
+        time: 'Awards ceremony',
+        location: 'LWRH',
+        description: 'Celebration of district-level student achievements and awards.',
+        emailLink: 'mailto:themsafbla@msa.raeschools.org?subject=District%20FBLA%20awards%20ceremony'
+      }
+    ];
+
+    const authScreen = document.getElementById('authScreen');
+    const appShell = document.getElementById('appShell');
+    const coordinatorShell = document.getElementById('coordinatorShell');
+    const welcomeModal = document.getElementById('welcomeModal');
+    const welcomeModalTitle = document.getElementById('welcomeModalTitle');
+    const welcomeModalText = document.getElementById('welcomeModalText');
+    const authMessage = document.getElementById('authMessage');
+    const loginPane = document.getElementById('loginPane');
+    const signupPane = document.getElementById('signupPane');
+    const loginForm = document.getElementById('loginForm');
+    const signupForm = document.getElementById('signupForm');
+    const welcomeName = document.getElementById('welcomeName');
+    const welcomeText = document.getElementById('welcomeText');
+    const profileUsername = document.getElementById('profileUsername');
+    const profileName = document.getElementById('profileName');
+    const profileEmail = document.getElementById('profileEmail');
+    const userNameChip = document.getElementById('userNameChip');
+    const shareAppBtn = document.getElementById('shareAppBtn');
+    const eventsList = document.getElementById('eventsList');
+    const notificationsBtn = document.getElementById('notificationsBtn');
+    const authToggle = document.querySelector('.auth-toggle');
+    const coordinatorLink = document.getElementById('coordinatorLink');
+    const coordinatorPane = document.getElementById('coordinatorPane');
+    const coordinatorForm = document.getElementById('coordinatorForm');
+    const officerSelect = document.getElementById('officerSelect');
+    const officerReason = document.getElementById('officerReason');
+    const officerMessage = document.getElementById('officerMessage');
+    const sentMessages = document.getElementById('sentMessages');
+    const messageStatus = document.getElementById('messageStatus');
+    const coordinatorMessages = document.getElementById('coordinatorMessages');
+    const coordinatorStudentSelect = document.getElementById('coordinatorStudentSelect');
+    const coordinatorMessage = document.getElementById('coordinatorMessage');
+    const coordinatorMessageStatus = document.getElementById('coordinatorMessageStatus');
+    const memberMessages = document.getElementById('memberMessages');
+    const calendarMonthLabel = document.getElementById('calendarMonthLabel');
+    const calendarGrid = document.getElementById('calendarGrid');
+    let calendarMonth = new Date().getMonth();
+    let calendarYear = new Date().getFullYear();
+
+    function setAuthMessage(text, isError = false) {
+      authMessage.textContent = text;
+      authMessage.classList.toggle('error', isError);
+    }
+
+    function getUsers() {
+      try {
+        return JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
+      } catch (error) {
+        return [];
+      }
+    }
+
+    function saveUsers(users) {
+      localStorage.setItem(USERS_KEY, JSON.stringify(users));
+    }
+
+    function cacheUserProfile(user) {
+      const users = getUsers().filter((entry) => entry.username !== user.username);
+      users.push({
+        fullName: user.fullName,
+        username: user.username,
+        email: user.email,
+        calendarEvents: user.calendarEvents || {}
+      });
+      saveUsers(users);
+    }
+
+    function showMode(mode) {
+      const isLogin = mode === 'login';
+      loginPane.classList.toggle('hidden', !isLogin);
+      signupPane.classList.toggle('hidden', isLogin);
+      coordinatorPane.classList.add('hidden');
+      authToggle.classList.remove('hidden');
+      coordinatorLink.classList.remove('hidden');
+      document.querySelectorAll('.toggle-btn').forEach((button) => {
+        button.classList.toggle('active', button.dataset.mode === mode);
+      });
+    }
+
+    function showCoordinatorLogin() {
+      loginPane.classList.add('hidden');
+      signupPane.classList.add('hidden');
+      coordinatorPane.classList.remove('hidden');
+      authToggle.classList.add('hidden');
+      coordinatorLink.classList.add('hidden');
+      setAuthMessage('Coordinator access uses a separate login.', false);
+    }
+
+    function getCurrentUser() {
+      const value = localStorage.getItem(CURRENT_USER_KEY);
+      if (!value) return null;
+      const users = getUsers();
+      return users.find((user) => user.username === value) || null;
+    }
+
+    function setCurrentUser(username) {
+      localStorage.setItem(CURRENT_USER_KEY, username);
+    }
+
+    function clearCurrentUser() {
+      localStorage.removeItem(CURRENT_USER_KEY);
+    }
+
+    function renderProfile(user) {
+      welcomeName.textContent = `Hello, ${user.fullName}!`;
+      welcomeText.textContent = `Your FBLA dashboard is personalized for ${user.username}.`;
+      profileUsername.textContent = `@${user.username}`;
+      profileName.textContent = user.fullName;
+      profileEmail.textContent = user.email;
+      userNameChip.textContent = user.username;
+    }
+
+    function getCalendarEvents() {
+      try {
+        const currentUser = getCurrentUser();
+        if (currentUser && currentUser.calendarEvents) return currentUser.calendarEvents;
+        return JSON.parse(localStorage.getItem(CALENDAR_KEY) || '{}');
+      } catch (error) {
+        return {};
+      }
+    }
+
+    function saveCalendarEvents(calendarEvents) {
+      localStorage.setItem(CALENDAR_KEY, JSON.stringify(calendarEvents));
+      const currentUser = getCurrentUser();
+      const firebaseUser = firebaseAuth.currentUser;
+      if (!currentUser && !firebaseUser) return;
+
+      const users = getUsers();
+      if (currentUser) {
+        const userIndex = users.findIndex((user) => user.username === currentUser.username);
+        if (userIndex !== -1) {
+          users[userIndex].calendarEvents = calendarEvents;
+          saveUsers(users);
+        }
+      }
+
+      if (firebaseUser) {
+        firestore.collection('users').doc(firebaseUser.uid).set({ calendarEvents }, { merge: true }).catch((error) => {
+          console.error('Could not sync calendar:', error);
+        });
+      }
+    }
+
+    function getStudentCalendarEvents(user) {
+      return user.calendarEvents || {};
+    }
+
+    async function renderCoordinatorPortal() {
+      const currentFirebaseUser = firebaseAuth.currentUser;
+      let users = getUsers();
+      if (currentFirebaseUser) {
+        const coordinatorProfile = await firestore.collection('users').doc(currentFirebaseUser.uid).get();
+        if (!coordinatorProfile.exists || coordinatorProfile.data().role !== 'coordinator') {
+          exitCoordinatorPortal();
+          return;
+        }
+        const userSnapshot = await firestore.collection('users').get();
+        users = userSnapshot.docs.map((doc) => doc.data());
+      }
+      const totalSelections = users.reduce((count, user) => count + Object.values(getStudentCalendarEvents(user)).filter(Boolean).length, 0);
+      document.getElementById('studentCount').textContent = users.length;
+      document.getElementById('calendarSelectionCount').textContent = totalSelections;
+
+      const studentList = document.getElementById('studentList');
+      if (!users.length) {
+        studentList.innerHTML = '<p class="calendar-empty">No student accounts have been created on this device yet.</p>';
+      } else {
+        studentList.innerHTML = users.map((user) => {
+          const selectedEvents = Object.entries(getStudentCalendarEvents(user))
+            .filter(([, isSelected]) => isSelected)
+            .map(([eventId]) => EVENT_ITEMS.find((eventItem) => eventItem.id === eventId))
+            .filter(Boolean);
+          const eventList = selectedEvents.length
+            ? `<ul>${selectedEvents.map((eventItem) => `<li>${eventItem.title} <span>${eventItem.displayDate || eventItem.date}</span></li>`).join('')}</ul>`
+            : '<p class="student-empty">No events added to the in-app calendar yet.</p>';
+
+          return `
+            <article class="student-card">
+              <div class="student-card-header">
+                <div>
+                  <h3>${user.fullName}</h3>
+                  <p>@${user.username} · ${user.email}</p>
+                </div>
+                <strong>${selectedEvents.length} event${selectedEvents.length === 1 ? '' : 's'}</strong>
+              </div>
+              ${eventList}
+            </article>
+          `;
+        }).join('');
+      }
+
+      coordinatorStudentSelect.innerHTML = users.length
+        ? users.map((user) => `<option value="${user.username}">${user.fullName} (@${user.username})</option>`).join('')
+        : '<option value="">No students available</option>';
+      coordinatorStudentSelect.disabled = !users.length;
+
+      const memberMessagesList = await getAllMessages();
+      memberMessages.innerHTML = memberMessagesList.length
+        ? memberMessagesList.slice().reverse().map((message) => `
+            <article class="sent-message">
+              <div>
+                <strong>@${message.senderUsername || 'member'} to ${message.officerName}</strong>
+                <span>${message.date}</span>
+              </div>
+              <p class="message-reason">Reason: ${message.reason || 'Other'}</p>
+              <p>${message.text}</p>
+            </article>
+          `).join('')
+        : '<p class="calendar-empty">No messages from members yet.</p>';
+    }
+
+    function showCoordinatorPortal() {
+      authScreen.classList.add('hidden');
+      appShell.classList.add('hidden');
+      coordinatorShell.classList.remove('hidden');
+      renderCoordinatorPortal();
+    }
+
+    function exitCoordinatorPortal() {
+      coordinatorShell.classList.add('hidden');
+      showAuth();
+    }
+
+    function getMessages() {
+      try {
+        return JSON.parse(localStorage.getItem(MESSAGES_KEY) || '[]');
+      } catch (error) {
+        return [];
+      }
+    }
+
+    function saveMessages(messages) {
+      localStorage.setItem(MESSAGES_KEY, JSON.stringify(messages));
+    }
+
+    async function getAllMessages() {
+      try {
+        const snapshot = await firestore.collection('messages').orderBy('createdAt', 'desc').get();
+        return snapshot.docs.map((doc) => doc.data());
+      } catch (error) {
+        return getMessages();
+      }
+    }
+
+    function getCoordinatorMessages() {
+      try {
+        return JSON.parse(localStorage.getItem(COORDINATOR_MESSAGES_KEY) || '[]');
+      } catch (error) {
+        return [];
+      }
+    }
+
+    function saveCoordinatorMessages(messages) {
+      localStorage.setItem(COORDINATOR_MESSAGES_KEY, JSON.stringify(messages));
+    }
+
+    async function getAllCoordinatorMessages() {
+      try {
+        const snapshot = await firestore.collection('coordinatorMessages')
+          .where('toUsername', '==', getActiveUsername())
+          .orderBy('createdAt', 'desc')
+          .get();
+        return snapshot.docs.map((doc) => doc.data());
+      } catch (error) {
+        return getCoordinatorMessages();
+      }
+    }
+
+    function getActiveUsername() {
+      return getCurrentUser()?.username || 'member';
+    }
+
+    function getActiveFullName() {
+      return getCurrentUser()?.fullName || 'MSA FBLA Member';
+    }
+
+    function namesMatch(firstName, secondName) {
+      return String(firstName || '').trim().toLowerCase() === String(secondName || '').trim().toLowerCase();
+    }
+
+    async function renderCoordinatorMessagesForMember() {
+      const messages = (await getAllCoordinatorMessages()).filter((message) => message.toUsername === getActiveUsername());
+      if (!messages.length) {
+        coordinatorMessages.innerHTML = '<p class="calendar-empty">No coordinator messages yet.</p>';
+        return;
+      }
+
+      coordinatorMessages.innerHTML = messages.slice().reverse().map((message) => `
+        <article class="sent-message">
+          <div>
+            <strong>FBLA Coordinator</strong>
+            <span>${message.date}</span>
+          </div>
+          <p>${message.text}</p>
+        </article>
+      `).join('');
+    }
+
+    async function renderOfficerMessagesForMember() {
+      const messages = (await getAllMessages()).filter((message) => namesMatch(message.recipientName, getActiveFullName()));
+      const officerInbox = document.getElementById('officerMessages');
+      if (!messages.length) {
+        officerInbox.innerHTML = '<p class="calendar-empty">No messages from officers yet.</p>';
+        return;
+      }
+
+      officerInbox.innerHTML = messages.slice().reverse().map((message) => `
+        <article class="sent-message">
+          <div>
+            <strong>${message.officerName}</strong>
+            <span>${message.date}</span>
+          </div>
+          <p class="message-reason">Reason: ${message.reason || 'Other'}</p>
+          <p>${message.text}</p>
+        </article>
+      `).join('');
+    }
+
+    async function renderOfficers() {
+      officerSelect.innerHTML = OFFICERS.map((officer) => `<option value="${officer.id}">${officer.name} - ${officer.role}</option>`).join('');
+      renderOfficerReasons();
+      const messages = getMessages().filter((message) => message.senderUsername === getActiveUsername());
+      if (!messages.length) {
+        sentMessages.innerHTML = '<p class="calendar-empty">Your sent messages will appear here.</p>';
+      } else {
+        sentMessages.innerHTML = messages.slice().reverse().map((message) => `
+          <article class="sent-message">
+            <div>
+              <strong>${message.officerName}</strong>
+              <span>${message.date}</span>
+            </div>
+            <p class="message-reason">Reason: ${message.reason || 'Other'}</p>
+            <p>${message.text}</p>
+          </article>
+        `).join('');
+      }
+      renderCoordinatorMessagesForMember();
+      renderOfficerMessagesForMember();
+    }
+
+    function renderOfficerReasons() {
+      const reasons = OFFICER_REASONS[officerSelect.value] || ['Question', 'Support request'];
+      officerReason.innerHTML = [...reasons, 'Other'].map((reason) => `<option value="${reason}">${reason}</option>`).join('');
+    }
+
+    function toggleCalendarEvent(eventId) {
+      const calendarEvents = getCalendarEvents();
+      calendarEvents[eventId] = !calendarEvents[eventId];
+      saveCalendarEvents(calendarEvents);
+      renderEvents();
+      renderCalendar();
+    }
+
+    function renderEvents() {
+      const calendarEvents = getCalendarEvents();
+      eventsList.innerHTML = EVENT_ITEMS.map((eventItem) => {
+        const isInCalendar = !!calendarEvents[eventItem.id];
+        const askLink = eventItem.emailLink ? `<a class="ask-link" href="${eventItem.emailLink}">Ask about this event</a>` : '';
+        const eventCard = `
+          <article class="event-card">
+            <div class="event-topline">
+              <span class="event-tag">${eventItem.type}</span>
+            </div>
+            <h3>${eventItem.title}</h3>
+            <p class="event-meta">${eventItem.displayDate || eventItem.date} · ${eventItem.time}</p>
+            <p class="event-meta">${eventItem.location}</p>
+            <p class="event-description">${eventItem.description}</p>
+            ${askLink}
+            <div class="event-actions">
+              <button class="event-button secondary calendar-toggle-button" data-event-id="${eventItem.id}" type="button">${isInCalendar ? 'Remove from FBLA calendar' : 'Add to FBLA calendar'}</button>
+            </div>
+          </article>
+        `;
+        return eventCard;
+      }).join('');
+
+      document.querySelectorAll('.calendar-toggle-button').forEach((button) => {
+        button.addEventListener('click', () => toggleCalendarEvent(button.dataset.eventId));
+      });
+
+      renderCalendar();
+    }
+
+    function renderCalendar() {
+      const selected = Object.entries(getCalendarEvents()).filter(([, isInCalendar]) => isInCalendar).map(([eventId]) => EVENT_ITEMS.find((eventItem) => eventItem.id === eventId)).filter(Boolean);
+      const calendarEvents = document.getElementById('calendarEvents');
+      const monthStart = new Date(calendarYear, calendarMonth, 1);
+      const daysInMonth = new Date(calendarYear, calendarMonth + 1, 0).getDate();
+      const firstDay = monthStart.getDay();
+      const monthName = monthStart.toLocaleString('en-US', { month: 'long', year: 'numeric' });
+      calendarMonthLabel.textContent = monthName;
+
+      const selectedByDate = selected.reduce((eventsByDate, eventItem) => {
+        eventsByDate[eventItem.date] = (eventsByDate[eventItem.date] || 0) + 1;
+        return eventsByDate;
+      }, {});
+
+      calendarGrid.innerHTML = Array.from({ length: firstDay + daysInMonth }, (_, index) => {
+        if (index < firstDay) return '<span class="calendar-day empty" aria-hidden="true"></span>';
+
+        const day = index - firstDay + 1;
+        const dateKey = `${calendarYear}-${String(calendarMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        const eventCount = selectedByDate[dateKey] || 0;
+        return `<div class="calendar-day ${eventCount ? 'has-event' : ''}">
+          <span>${day}</span>
+          ${eventCount ? `<small>${eventCount} event${eventCount === 1 ? '' : 's'}</small>` : ''}
+        </div>`;
+      }).join('');
+
+      calendarEvents.innerHTML = selected.map((eventItem) => `
+        <div class="calendar-item">
+          <div class="calendar-date">
+            <span>${new Date(`${eventItem.date}T00:00:00`).toLocaleString('en-US', { month: 'short' })}</span>
+            <strong>${new Date(`${eventItem.date}T00:00:00`).getDate()}</strong>
+          </div>
+          <div class="calendar-details">
+            <h4>${eventItem.title}</h4>
+            <p>${eventItem.type}</p>
+            <p>${eventItem.displayDate || eventItem.date} · ${eventItem.time}</p>
+            <p>${eventItem.location}</p>
+          </div>
+          <button class="calendar-link calendar-remove-button" data-event-id="${eventItem.id}" type="button">Remove</button>
+        </div>
+      `).join('');
+
+      document.querySelectorAll('.calendar-remove-button').forEach((button) => {
+        button.addEventListener('click', () => toggleCalendarEvent(button.dataset.eventId));
+      });
+    }
+
+    function showTab(tabId) {
+      document.querySelectorAll('.tab-panel').forEach((panel) => {
+        panel.classList.toggle('active', panel.id === tabId);
+      });
+      document.querySelectorAll('.nav-btn').forEach((button) => {
+        button.classList.toggle('active', button.dataset.tab === tabId);
+      });
+    }
+
+    function showApp(userOverride = null) {
+      const user = userOverride || getCurrentUser();
+      if (!user) {
+        showAuth();
+        return;
+      }
+
+      cacheUserProfile(user);
+      renderProfile(user);
+      renderEvents();
+      renderOfficers();
+      authScreen.classList.add('hidden');
+      coordinatorShell.classList.add('hidden');
+      appShell.classList.remove('hidden');
+      showTab('homeTab');
+    }
+
+    function showAuth() {
+      authScreen.classList.remove('hidden');
+      appShell.classList.add('hidden');
+      coordinatorShell.classList.add('hidden');
+      welcomeModal.classList.add('hidden');
+      setAuthMessage('');
+      showMode('login');
+    }
+
+    function showWelcomeModal(user) {
+      welcomeModalTitle.textContent = `Welcome, ${user.fullName}!`;
+      welcomeModalText.textContent = 'Your MSA FBLA dashboard is ready.';
+      welcomeModal.classList.remove('hidden');
+    }
+
+    document.querySelectorAll('.toggle-btn').forEach((button) => {
+      button.addEventListener('click', () => {
+        showMode(button.dataset.mode);
+        setAuthMessage('');
+      });
+    });
+
+    signupForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const fullName = document.getElementById('signupName').value.trim();
+      const username = document.getElementById('signupUsername').value.trim();
+      const email = document.getElementById('signupEmail').value.trim();
+      const password = document.getElementById('signupPassword').value.trim();
+      const joinCode = document.getElementById('signupJoinCode').value.trim();
+
+      if (!fullName || !username || !email || !password || !joinCode) {
+        setAuthMessage('Please fill out every field.', true);
+        return;
+      }
+
+      if (joinCode !== JOIN_CODE) {
+        setAuthMessage('That FBLA join code is not correct.', true);
+        return;
+      }
+
+      try {
+        const credential = await firebaseAuth.createUserWithEmailAndPassword(email, password);
+        await credential.user.updateProfile({ displayName: fullName });
+        await firestore.collection('users').doc(credential.user.uid).set({
+          fullName,
+          username,
+          usernameLower: username.toLowerCase(),
+          email,
+          role: 'member',
+          calendarEvents: {},
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        setCurrentUser(username);
+        signupForm.reset();
+        showApp({ fullName, username, email, role: 'member', calendarEvents: {} });
+        showWelcomeModal({ fullName });
+      } catch (error) {
+        setAuthMessage(error.code === 'auth/email-already-in-use' ? 'That email is already used.' : 'Unable to create the account right now.', true);
+      }
+    });
+
+    coordinatorLink.addEventListener('click', showCoordinatorLogin);
+
+    document.getElementById('backToMemberLoginBtn').addEventListener('click', () => {
+      showMode('login');
+      setAuthMessage('');
+    });
+
+    coordinatorForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const email = document.getElementById('coordinatorEmail').value.trim();
+      const password = document.getElementById('coordinatorPassword').value.trim();
+      const code = document.getElementById('coordinatorCode').value.trim();
+
+      if (!email || !password || !code) {
+        setAuthMessage('Please enter the coordinator email, password, and access code.', true);
+        return;
+      }
+
+      if (code !== COORDINATOR_CODE) {
+        setAuthMessage('That coordinator access code is not correct.', true);
+        return;
+      }
+
+      try {
+        await firebaseAuth.signInWithEmailAndPassword(email, password);
+        coordinatorForm.reset();
+        showCoordinatorPortal();
+      } catch (error) {
+        setAuthMessage('Coordinator account details were not recognized.', true);
+      }
+    });
+
+    loginForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const username = document.getElementById('loginUsername').value.trim();
+      const password = document.getElementById('loginPassword').value.trim();
+
+      if (!username || !password) {
+        setAuthMessage('Please enter both username and password.', true);
+        return;
+      }
+
+      try {
+        if (!username.includes('@')) {
+          setAuthMessage('Use the email address you used when you signed up.', true);
+          return;
+        }
+
+        const credential = await firebaseAuth.signInWithEmailAndPassword(username, password);
+        const profileSnapshot = await firestore.collection('users').doc(credential.user.uid).get();
+        const user = profileSnapshot.exists
+          ? profileSnapshot.data()
+          : { fullName: credential.user.displayName || 'MSA FBLA Member', username: username, email: credential.user.email, calendarEvents: {} };
+        setCurrentUser(user.username);
+        loginForm.reset();
+        showApp(user);
+        showWelcomeModal(user);
+      } catch (error) {
+        setAuthMessage('Incorrect username or password.', true);
+      }
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      clearCurrentUser();
+      firebaseAuth.signOut();
+    });
+
+    shareAppBtn.addEventListener('click', async () => {
+      const appUrl = window.location.href.split('#')[0];
+      const shareData = {
+        title: 'MSA FBLA App',
+        text: 'Join the MSA FBLA app.',
+        url: appUrl
+      };
+
+      try {
+        if (navigator.share) {
+          await navigator.share(shareData);
+          return;
+        }
+
+        await navigator.clipboard.writeText(appUrl);
+        shareAppBtn.textContent = 'Link copied';
+        window.setTimeout(() => { shareAppBtn.textContent = 'Share'; }, 1800);
+      } catch (error) {
+        shareAppBtn.textContent = 'Copy failed';
+        window.setTimeout(() => { shareAppBtn.textContent = 'Share'; }, 1800);
+      }
+    });
+
+    document.getElementById('coordinatorLogoutBtn').addEventListener('click', exitCoordinatorPortal);
+    document.getElementById('refreshStudentsBtn').addEventListener('click', renderCoordinatorPortal);
+    document.getElementById('closeWelcomeModalBtn').addEventListener('click', () => {
+      welcomeModal.classList.add('hidden');
+    });
+
+    document.getElementById('addAllToCalendarBtn').addEventListener('click', () => {
+      const calendarEvents = EVENT_ITEMS.reduce((allEvents, eventItem) => {
+        allEvents[eventItem.id] = true;
+        return allEvents;
+      }, {});
+      saveCalendarEvents(calendarEvents);
+      renderEvents();
+    });
+
+    notificationsBtn.addEventListener('click', () => {
+      const enabled = localStorage.getItem(NOTIFICATIONS_KEY) !== 'true';
+      localStorage.setItem(NOTIFICATIONS_KEY, String(enabled));
+      notificationsBtn.setAttribute('aria-pressed', String(enabled));
+      notificationsBtn.classList.toggle('enabled', enabled);
+      notificationsBtn.textContent = enabled ? 'FBLA notifications on' : 'Receive FBLA notifications';
+    });
+
+    document.getElementById('sendOfficerMessageBtn').addEventListener('click', () => {
+      const text = officerMessage.value.trim();
+      const officer = OFFICERS.find((entry) => entry.id === officerSelect.value);
+      const reason = officerReason.value;
+
+      if (!text) {
+        messageStatus.textContent = 'Write a message before sending.';
+        messageStatus.classList.add('error');
+        return;
+      }
+
+      const messages = getMessages();
+      const message = {
+        senderUsername: getActiveUsername(),
+        officerId: officer.id,
+        officerName: officer.name,
+        recipientName: officer.name,
+        reason,
+        text,
+        date: new Date().toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' }),
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      };
+      messages.push(message);
+      saveMessages(messages);
+      firestore.collection('messages').add(message).catch((error) => console.error('Could not sync officer message:', error));
+      officerMessage.value = '';
+      messageStatus.textContent = `Message saved for ${officer.name}.`;
+      messageStatus.classList.remove('error');
+      renderOfficers();
+    });
+
+    officerSelect.addEventListener('change', renderOfficerReasons);
+
+    document.getElementById('sendCoordinatorMessageBtn').addEventListener('click', () => {
+      const text = coordinatorMessage.value.trim();
+      const username = coordinatorStudentSelect.value;
+
+      if (!username) {
+        coordinatorMessageStatus.textContent = 'Choose a student before sending.';
+        coordinatorMessageStatus.classList.add('error');
+        return;
+      }
+
+      if (!text) {
+        coordinatorMessageStatus.textContent = 'Write a message before sending.';
+        coordinatorMessageStatus.classList.add('error');
+        return;
+      }
+
+      const messages = getCoordinatorMessages();
+      const message = {
+        toUsername: username,
+        text,
+        date: new Date().toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' }),
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      };
+      messages.push(message);
+      saveCoordinatorMessages(messages);
+      firestore.collection('coordinatorMessages').add(message).catch((error) => console.error('Could not sync coordinator message:', error));
+      coordinatorMessage.value = '';
+      coordinatorMessageStatus.textContent = 'Message sent to the student.';
+      coordinatorMessageStatus.classList.remove('error');
+      renderCoordinatorPortal();
+    });
+
+    if (localStorage.getItem(NOTIFICATIONS_KEY) === 'true') {
+      notificationsBtn.setAttribute('aria-pressed', 'true');
+      notificationsBtn.classList.add('enabled');
+      notificationsBtn.textContent = 'FBLA notifications on';
+    }
+
+    document.getElementById('previousMonthBtn').addEventListener('click', () => {
+      calendarMonth -= 1;
+      if (calendarMonth < 0) {
+        calendarMonth = 11;
+        calendarYear -= 1;
+      }
+      renderCalendar();
+    });
+
+    document.getElementById('nextMonthBtn').addEventListener('click', () => {
+      calendarMonth += 1;
+      if (calendarMonth > 11) {
+        calendarMonth = 0;
+        calendarYear += 1;
+      }
+      renderCalendar();
+    });
+
+    document.querySelectorAll('.nav-btn').forEach((button) => {
+      button.addEventListener('click', () => {
+        showTab(button.dataset.tab);
+      });
+    });
+
+    const BYPASS_AUTH = false;
+
+    if (BYPASS_AUTH) {
+      const demoUser = {
+        fullName: 'MSA FBLA Member',
+        username: 'member',
+        email: 'member@msa.com'
+      };
+      renderProfile(demoUser);
+      renderEvents();
+      renderOfficers();
+      authScreen.classList.add('hidden');
+      coordinatorShell.classList.add('hidden');
+      appShell.classList.remove('hidden');
+      showTab('homeTab');
+    } else {
+      firebaseAuth.onAuthStateChanged(async (firebaseUser) => {
+        if (!firebaseUser) {
+          showAuth();
+          return;
+        }
+
+        const profileSnapshot = await firestore.collection('users').doc(firebaseUser.uid).get();
+        const user = profileSnapshot.exists
+          ? profileSnapshot.data()
+          : { fullName: firebaseUser.displayName || 'MSA FBLA Member', username: firebaseUser.email, email: firebaseUser.email, calendarEvents: {} };
+        setCurrentUser(user.username);
+        showApp(user);
+      });
+    }
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js').catch((error) => {
+          console.log('Service worker failed to register:', error);
+        });
+      });
+    }
+  </script>
+</body>
+</html>
