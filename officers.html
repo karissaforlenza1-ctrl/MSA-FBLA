@@ -36,8 +36,19 @@
 		.officer-photo { display: grid; place-items: center; width: 100%; height: 150px; margin-bottom: 18px; border: 2px dashed #c7d6e8; background: #f7fbff; color: var(--muted); font-size: 0.9rem; }
 		.officer-name { min-height: 1.7em; margin: 0 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--line); color: var(--navy); font-weight: 700; }
 		.officer-card p { margin: 0; color: var(--muted); line-height: 1.7; }
+		.advisor-section { margin-top: 42px; }
+		.advisor-section h2 { margin: 0 0 8px; color: var(--navy); font-family: "Space Grotesk", sans-serif; font-size: 2.2rem; }
+		.advisor-section > p { margin: 0 0 18px; color: var(--muted); line-height: 1.7; }
+		.advisor-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+		.advisor-card { overflow: hidden; background: var(--white); border: 1px solid var(--line); border-top: 6px solid var(--navy); box-shadow: 0 10px 26px rgba(20,43,76,0.04); }
+		.advisor-card img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+		.advisor-card div { padding: 16px 18px 18px; }
+		.advisor-card h3 { margin: 0 0 6px; color: var(--navy); font-family: "Space Grotesk", sans-serif; font-size: 1.2rem; }
+		.advisor-card p { margin: 0; color: var(--muted); line-height: 1.5; }
 		footer { display: flex; justify-content: space-between; max-width: 1200px; margin: 0 auto; padding: 26px 28px 36px; color: #647176; font-size: 12px; }
+		@media (max-width: 1000px) { .advisor-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 		@media (max-width: 860px) { .site-header { padding: 16px 18px; } nav { display: none; } .page-hero { padding: 34px 24px; } .officer-grid { grid-template-columns: 1fr; } footer { display: block; padding: 20px 24px 28px; } footer span { display: block; margin-top: 8px; } }
+		@media (max-width: 520px) { .advisor-grid { grid-template-columns: 1fr; } }
 	</style>
 </head>
 <body>
@@ -78,6 +89,19 @@
 			<article class="officer-card"><div class="officer-photo">Officer photo</div><h2>Reporter / National FBLA Publication Manager</h2><p class="officer-name">Paulina Annaorazov</p><p>Reports chapter news and supports national FBLA publication efforts.</p></article>
 			<article class="officer-card"><div class="officer-photo">Officer photo</div><h2>Historian / Florida FBLA Publication Manager</h2><p class="officer-name">Melliana Morells</p><p>Documents chapter history and supports Florida FBLA publications.</p></article>
 			<article class="officer-card"><div class="officer-photo">Officer photo</div><h2>Competitive Events Manager</h2><p class="officer-name">Mikain Dor</p><p>Supports members preparing for competitive events and chapter competitions.</p></article>
+		</section>
+		<section class="advisor-section" aria-label="MSA FBLA advisor team">
+			<h2>Meet our advisors.</h2>
+			<p>Our advisor team supports chapter leadership, student growth, service, and competitive success.</p>
+			<div class="advisor-grid">
+				<article class="advisor-card"><img src="Assets/Meet%20our%20MSA%20FBLA%20Advisor%20janeliz.png" alt="Janeliz, MSA FBLA advisor" loading="lazy"><div><h3>Janeliz</h3><p>MSA FBLA Advisor</p></div></article>
+				<article class="advisor-card"><img src="Assets/Meet%20our%20MSA%20FBLA%20Advisor%20Dawson.png" alt="Dawson, MSA FBLA advisor" loading="lazy"><div><h3>Dawson</h3><p>MSA FBLA Advisor</p></div></article>
+				<article class="advisor-card"><img src="Assets/Meet%20our%20MSA%20FBLA%20Advisor%20Nina%20zhang.png" alt="Nina Zhang, MSA FBLA advisor" loading="lazy"><div><h3>Nina Zhang</h3><p>MSA FBLA Advisor</p></div></article>
+				<article class="advisor-card"><img src="Assets/Meet%20our%20MSA%20FBLA%20Advisor%20mikian%20Dor.png" alt="Mikian Dor, MSA FBLA advisor" loading="lazy"><div><h3>Mikian Dor</h3><p>MSA FBLA Advisor</p></div></article>
+				<article class="advisor-card"><img src="Assets/Meet%20our%20MSA%20FBLA%20Advisor%20Karissa.png" alt="Karissa, MSA FBLA advisor" loading="lazy"><div><h3>Karissa</h3><p>MSA FBLA Advisor</p></div></article>
+				<article class="advisor-card"><img src="Assets/Meet%20our%20MSA%20FBLA%20advisor%20sarah.jpeg" alt="Sarah, MSA FBLA advisor" loading="lazy"><div><h3>Sarah</h3><p>MSA FBLA Advisor</p></div></article>
+				<article class="advisor-card"><img src="Assets/Nelliana%20MOrells.png" alt="Nelliana Morells, MSA FBLA advisor" loading="lazy"><div><h3>Nelliana Morells</h3><p>MSA FBLA Advisor</p></div></article>
+			</div>
 		</section>
 	</main>
 	<footer><span>Manatee School for the Arts · FBLA</span><span>Palmetto, Florida</span></footer>
