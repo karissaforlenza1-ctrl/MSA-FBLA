@@ -1,0 +1,8 @@
+{
+  "appId": "org.msfta.fbla",
+  "appName": "MSA FBLA",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  }
+}

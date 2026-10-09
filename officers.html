@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Meet the Manatee School for the Arts FBLA officers.">
+	<title>Meet Our Officers | MSA FBLA</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+	<style>
+		:root { --navy: #1d3253; --navy-deep: #10213a; --gold: #f4c451; --paper: #f8f5ee; --white: #ffffff; --ink: #1d2a39; --muted: #586877; --line: #dfeaf8; --red: #d9472f; }
+		* { box-sizing: border-box; }
+		.brand-mark svg, .brand-mark > div { display: none !important; }
+		.brand-logo { display: block; width: 220px; height: 58px; object-fit: contain; object-position: left center; }
+		body { margin: 0; background: #f5f5f5; color: var(--ink); font-family: "DM Sans", sans-serif; }
+		a { color: inherit; }
+		.site-header { display: flex; align-items: center; justify-content: space-between; max-width: 1200px; margin: 0 auto; padding: 16px 28px; background: rgba(255,255,255,0.96); box-shadow: 0 2px 0 rgba(17,33,58,0.05); }
+		.brand { display: inline-flex; align-items: center; text-decoration: none; }
+		.brand-mark { display: inline-flex; align-items: center; padding: 14px 18px 12px 14px; background: linear-gradient(180deg, #ffffff 0%, #f9f6f0 100%); border: 2px solid var(--navy); border-radius: 12px; box-shadow: 0 8px 18px rgba(17,33,58,0.08); }
+		nav { display: flex; gap: 18px; align-items: center; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+		nav a { text-decoration: none; color: var(--navy); }
+		nav a:hover { color: var(--red); }
+		main { max-width: 1200px; margin: 0 auto; padding: 18px 18px 60px; }
+		.page-hero { padding: 52px 48px; margin: 20px 0 28px; background: linear-gradient(135deg, var(--navy-deep), var(--navy) 55%, #22466a); color: var(--white); }
+		.page-hero h1 { margin: 0 0 12px; font-family: "Space Grotesk", sans-serif; font-size: clamp(2.8rem, 6vw, 5rem); line-height: 0.94; letter-spacing: -0.06em; }
+		.page-hero p { max-width: 720px; margin: 0; color: rgba(255,255,255,0.84); font-size: 1.08rem; line-height: 1.7; }
+		.officer-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+		.officer-card { min-height: 210px; padding: 26px 24px; background: var(--white); border: 1px solid var(--line); border-top: 6px solid var(--gold); box-shadow: 0 10px 26px rgba(20,43,76,0.04); }
+		.officer-card:nth-child(2) { border-top-color: var(--navy); }
+		.officer-card:nth-child(3) { border-top-color: var(--red); }
+		.officer-card:nth-child(4) { border-top-color: #b87333; }
+		.officer-card:nth-child(5) { border-top-color: #a6aeb8; }
+		.officer-card:nth-child(6) { border-top-color: #d99b22; }
+		.officer-card h2 { margin: 0 0 12px; color: var(--navy); font-family: "Space Grotesk", sans-serif; font-size: 1.55rem; }
+		.officer-photo { position: relative; display: grid; place-items: center; width: 100%; height: 190px; margin-bottom: 18px; padding: 10px; overflow: hidden; border: 2px dashed #c7d6e8; background: #f7fbff; color: var(--navy); font-weight: 700; font-size: 0.92rem; text-align: center; line-height: 1.4; }
+		.officer-photo img { display: block; width: 100%; height: 166px; object-fit: cover; object-position: center 28%; }
+		.officer-name { min-height: 1.7em; margin: 0 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--line); color: var(--navy); font-weight: 700; }
+		.officer-card p { margin: 0; color: var(--muted); line-height: 1.7; }
+		.advisor-section { margin-top: 42px; }
+		.advisor-section h2 { margin: 0 0 8px; color: var(--navy); font-family: "Space Grotesk", sans-serif; font-size: 2.2rem; }
+		.advisor-section > p { margin: 0 0 18px; color: var(--muted); line-height: 1.7; }
+		.advisor-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+		.advisor-card { overflow: hidden; background: var(--white); border: 1px solid var(--line); border-top: 6px solid var(--navy); box-shadow: 0 10px 26px rgba(20,43,76,0.04); }
+		.advisor-card img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+		.advisor-card div { padding: 16px 18px 18px; }
+		.advisor-card h3 { margin: 0 0 6px; color: var(--navy); font-family: "Space Grotesk", sans-serif; font-size: 1.2rem; }
+		.advisor-card p { margin: 0; color: var(--muted); line-height: 1.5; }
+		footer { display: flex; justify-content: space-between; max-width: 1200px; margin: 0 auto; padding: 26px 28px 36px; color: #647176; font-size: 12px; }
+		@media (max-width: 1000px) { .advisor-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+		@media (max-width: 860px) { .site-header { padding: 16px 18px; } nav { display: none; } .page-hero { padding: 34px 24px; } .officer-grid { grid-template-columns: 1fr; } footer { display: block; padding: 20px 24px 28px; } footer span { display: block; margin-top: 8px; } }
+		@media (max-width: 520px) { .advisor-grid { grid-template-columns: 1fr; } }
+	</style>
+</head>
+<body>
+	<header class="site-header">
+		<a class="brand" href="index.html" aria-label="MSA FBLA home">
+			<div class="brand-mark" aria-label="FBLA chapter badge">
+				<img class="brand-logo" src="fbla-logo-horizontal-color.png" alt="Future Business Leaders of America">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 90" width="60" height="54" style="margin-right: 18px; flex-shrink: 0;" aria-hidden="true">
+					<polygon points="10,80 42,10 32,80" fill="#213555" />
+					<polygon points="41,80 50,28 59,80" fill="#F4C430" />
+					<polygon points="90,80 58,10 68,80" fill="#213555" />
+				</svg>
+				<div style="display: flex; flex-direction: column; justify-content: center;">
+					<span style="font-size: 28px; font-weight: 800; color: #213555; letter-spacing: 1px; line-height: 1.1;">FBLA</span>
+					<span style="font-size: 14px; font-weight: 700; color: #F4C430; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 2px;">Chapter Member</span>
+					<span style="font-size: 13px; font-weight: 500; color: #555555; margin-top: 4px; border-top: 1px solid #eeeeee; padding-top: 4px;">Manatee School for the Arts</span>
+				</div>
+			</div>
+		</a>
+		<nav aria-label="Main navigation">
+			<a href="index.html">Home</a><a href="mission.html">Mission</a><a href="events.html">Events</a><a href="conference.html">Conference</a><a href="rankings.html">Rankings</a><a href="officers.html">Officers</a><a href="gallery.html">Gallery</a><a href="coordinator.html">Coordinator</a><a href="sponsor.html">Sponsor</a><a href="social.html">Social</a>
+		</nav>
+	</header>
+	<main>
+		<section class="page-hero">
+			<h1>Meet our officers.</h1>
+			<p>Our student officers lead the chapter, support our members, and help make each FBLA experience meaningful.</p>
+		</section>
+		<section class="officer-grid" aria-label="MSA FBLA officer roles">
+			<article class="officer-card"><div class="officer-photo">Cabella King</div><h2>President</h2><p class="officer-name">Cabella King</p><p>Leads meetings, sets chapter goals, and oversees chapter operations.</p></article>
+			<article class="officer-card"><div class="officer-photo">Natalie Garcia</div><h2>Vice President</h2><p class="officer-name">Natalie Garcia</p><p>Assists the president and supports chapter programs and event logistics.</p></article>
+			<article class="officer-card"><div class="officer-photo"><img src="Assets/Meet%20our%20MSA%20FBLA%20Advisor%20Karissa.png" alt="Karissa Forlenza"></div><h2>Digital Media Manager and Web Developer</h2><p class="officer-name">Karissa Forlenza</p><p>Supports the chapter's digital presence, website, and online communication.</p></article>
+			<article class="officer-card"><div class="officer-photo"><img src="Assets/Meet%20our%20MSA%20FBLA%20advisor%20sarah.jpeg" alt="Sarah Zorzoman"></div><h2>Digital Media Manager</h2><p class="officer-name">Sarah Zorzoman</p><p>Creates digital content and helps share chapter updates and opportunities.</p></article>
+			<article class="officer-card"><div class="officer-photo"><img src="Assets/Meet%20our%20MSA%20FBLA%20Advisor%20Dawson.png" alt="Dawson Noailles"></div><h2>Secretary</h2><p class="officer-name">Dawson Noailles</p><p>Records meeting minutes, tracks attendance, and handles chapter correspondence.</p></article>
+			<article class="officer-card"><div class="officer-photo">Laila Abercrombie</div><h2>Community Outreach Coordinator</h2><p class="officer-name">Laila Abercrombie</p><p>Coordinates service projects and helps connect FBLA with the community.</p></article>
+			<article class="officer-card"><div class="officer-photo">Diana Gomez</div><h2>Treasurer</h2><p class="officer-name">Diana Gomez</p><p>Helps manage chapter finances, fundraising records, and the chapter budget.</p></article>
+			<article class="officer-card"><div class="officer-photo"><img src="Assets/Meet%20our%20MSA%20FBLA%20Advisor%20Nina%20zhang.png" alt="Nina Zhang"></div><h2>Fundraising and Business Partnership Coordinator</h2><p class="officer-name">Nina Zhang</p><p>Builds partnerships and supports fundraising opportunities for the chapter.</p></article>
+			<article class="officer-card"><div class="officer-photo">Paulina Annaorazov</div><h2>Reporter / National FBLA Publication Manager</h2><p class="officer-name">Paulina Annaorazov</p><p>Reports chapter news and supports national FBLA publication efforts.</p></article>
+			<article class="officer-card"><div class="officer-photo"><img src="Assets/Nelliana%20MOrells.png" alt="Nelliana Morells"></div><h2>Historian / Florida FBLA Publication Manager</h2><p class="officer-name">Nelliana Morells</p><p>Documents chapter history and supports Florida FBLA publications.</p></article>
+			<article class="officer-card"><div class="officer-photo"><img src="Assets/Meet%20our%20MSA%20FBLA%20Advisor%20mikian%20Dor.png" alt="Mikain Dor"></div><h2>Competitive Events Manager</h2><p class="officer-name">Mikain Dor</p><p>Supports members preparing for competitive events and chapter competitions.</p></article>
+		</section>
+	</main>
+	<footer><span>Manatee School for the Arts · FBLA</span><span>Palmetto, Florida</span></footer>
+	<script src="site-nav.js"></script>
+</body>
+</html>

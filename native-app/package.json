@@ -1,0 +1,19 @@
+{
+  "name": "msa-fbla-native",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Native store wrapper for the MSA FBLA app.",
+  "scripts": {
+    "sync": "cap sync",
+    "android": "cap open android",
+    "ios": "cap open ios"
+  },
+  "dependencies": {
+    "@capacitor/core": "latest",
+    "@capacitor/android": "latest",
+    "@capacitor/ios": "latest"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "latest"
+  }
+}

@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Sponsor Us | MSA FBLA</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+	<style>
+		:root {
+			--navy: #1d3253;
+			--navy-deep: #10213a;
+			--gold: #f4c451;
+			--gold-soft: #f7dc87;
+			--paper: #f8f5ee;
+			--white: #ffffff;
+			--ink: #1d2a39;
+			--muted: #586877;
+			--sky: #edf6ff;
+			--line: rgba(29, 50, 83, 0.12);
+			--red: #d9472f;
+		}
+		* { box-sizing: border-box; }
+		.brand-mark svg, .brand-mark > div { display: none !important; }
+		.brand-logo { display: block; width: 220px; height: 58px; object-fit: contain; object-position: left center; }
+		body {
+			margin: 0;
+			background: #f5f5f5;
+			color: var(--ink);
+			font-family: "DM Sans", sans-serif;
+		}
+		a { color: inherit; }
+		.site-header {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			max-width: 1200px;
+			margin: 0 auto;
+			padding: 16px 28px;
+			background: rgba(255,255,255,0.96);
+			box-shadow: 0 2px 0 rgba(17, 33, 58, 0.05);
+		}
+		.brand { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; }
+		.brand-mark {
+			display: inline-flex;
+			align-items: center;
+			background: linear-gradient(180deg, #ffffff 0%, #f9f6f0 100%);
+			border: 2px solid var(--navy);
+			border-radius: 12px;
+			padding: 14px 18px 12px 14px;
+			box-shadow: 0 8px 18px rgba(17, 33, 58, 0.08);
+		}
+		nav {
+			display: flex;
+			gap: 22px;
+			align-items: center;
+			font-size: 12px;
+			font-weight: 700;
+			letter-spacing: 0.14em;
+			text-transform: uppercase;
+		}
+		nav a {
+			text-decoration: none;
+			color: var(--navy);
+		}
+		nav a:hover { color: var(--red); }
+		main {
+			max-width: 1200px;
+			margin: 0 auto;
+			padding: 18px 18px 60px;
+		}
+		.page-hero {
+			position: relative;
+			padding: 52px 48px;
+			margin: 20px 0 28px;
+			background: linear-gradient(135deg, var(--navy-deep) 0%, var(--navy) 42%, #22466a 100%);
+			color: var(--white);
+			overflow: hidden;
+		}
+		.page-hero::after {
+			content: "";
+			position: absolute;
+			right: -70px;
+			bottom: -80px;
+			width: 260px;
+			height: 260px;
+			background: rgba(244,196,81,0.12);
+			border-radius: 50%;
+		}
+		.page-hero > * { position: relative; z-index: 1; }
+		.page-hero h1 {
+			margin: 0 0 12px;
+			font-family: "Space Grotesk", sans-serif;
+			font-size: clamp(2.8rem, 6vw, 5rem);
+			line-height: 0.94;
+			letter-spacing: -0.06em;
+		}
+		.page-hero p {
+			margin: 0;
+			max-width: 760px;
+			font-size: 1.08rem;
+			line-height: 1.7;
+			color: rgba(255,255,255,0.84);
+		}
+		.hero-actions {
+			display: flex;
+			gap: 16px;
+			flex-wrap: wrap;
+			margin-top: 26px;
+		}
+		.button {
+			display: inline-block;
+			padding: 15px 24px;
+			background: var(--gold);
+			color: var(--navy-deep);
+			font-size: 13px;
+			font-weight: 700;
+			letter-spacing: 0.12em;
+			text-decoration: none;
+			text-transform: uppercase;
+			border: none;
+			cursor: pointer;
+		}
+		.button.secondary {
+			background: transparent;
+			color: var(--white);
+			border: 1px solid rgba(255,255,255,0.35);
+		}
+		.sponsor-form {
+			display: grid;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			gap: 12px;
+			margin-top: 24px;
+		}
+		.amount-option,
+		.frequency-option {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			padding: 12px 14px;
+			background: rgba(255,255,255,0.06);
+			border: 1px solid rgba(255,255,255,0.12);
+			font-weight: 600;
+			color: var(--white);
+		}
+		.amount-option input,
+		.frequency-option input {
+			accent-color: var(--gold);
+			transform: scale(1.1);
+		}
+		.card-grid {
+			display: grid;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			gap: 18px;
+			margin-top: 26px;
+		}
+		.card {
+			background: var(--white);
+			border: 1px solid var(--line);
+			border-top: 6px solid var(--gold);
+			border-radius: 20px;
+			padding: 28px 24px;
+			box-shadow: 0 10px 26px rgba(20, 43, 76, 0.04);
+		}
+		.card:nth-child(2) { border-top-color: var(--navy); }
+		.card:nth-child(3) { border-top-color: var(--red); }
+		.card h2 {
+			margin: 0 0 14px;
+			font-family: "Space Grotesk", sans-serif;
+			font-size: 1.7rem;
+			line-height: 1.1;
+			color: var(--navy);
+		}
+		.card p {
+			margin: 0;
+			color: var(--muted);
+			line-height: 1.7;
+		}
+		.card ul {
+			margin: 16px 0 0;
+			padding-left: 18px;
+			color: var(--muted);
+			line-height: 1.8;
+		}
+		.sponsorship-levels {
+			display: grid;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			gap: 18px;
+			margin-top: 26px;
+		}
+		.level-card {
+			padding: 24px;
+			background: var(--white);
+			border: 1px solid var(--line);
+			border-top: 6px solid var(--gold);
+			box-shadow: 0 10px 26px rgba(20, 43, 76, 0.04);
+		}
+		.level-card:nth-child(2) { border-top-color: #b87333; }
+		.level-card:nth-child(3) { border-top-color: #a6aeb8; }
+		.level-card:nth-child(4) { border-top-color: #d99b22; }
+		.level-card:nth-child(5) { border-top-color: #7d8794; }
+		.level-card:nth-child(6) { border-top-color: var(--navy); }
+		.level-card h2 {
+			margin: 0;
+			font-family: "Space Grotesk", sans-serif;
+			font-size: 1.5rem;
+			color: var(--navy);
+		}
+		.level-price {
+			margin: 6px 0 14px;
+			font-size: 1.2rem;
+			font-weight: 700;
+			color: var(--red);
+		}
+		.level-card p {
+			margin: 0;
+			color: var(--muted);
+			line-height: 1.65;
+		}
+		.donation-box {
+			margin-top: 26px;
+			padding: 30px 28px;
+			background: var(--sky);
+			border: 1px solid #dfeaf8;
+			border-left: 6px solid var(--gold);
+		}
+		.donation-box h2 {
+			margin: 0 0 10px;
+			font-family: "Space Grotesk", sans-serif;
+			font-size: clamp(2rem, 4vw, 3rem);
+			color: var(--navy);
+		}
+		.donation-box p {
+			margin: 0 0 18px;
+			color: var(--muted);
+			line-height: 1.7;
+		}
+		.cta-panel {
+			margin-top: 26px;
+			padding: 30px 28px;
+			background: #edf5ff;
+			border: 1px solid #dfeaf8;
+			border-radius: 20px;
+		}
+		.cta-panel h3 {
+			margin: 0 0 12px;
+			font-family: "Space Grotesk", sans-serif;
+			font-size: clamp(2rem, 4vw, 3rem);
+			line-height: 0.96;
+			color: var(--navy);
+		}
+		.cta-panel p {
+			margin: 0 0 18px;
+			color: var(--muted);
+			line-height: 1.7;
+		}
+		.thank-you-panel {
+			margin-top: 26px;
+			padding: 34px 30px;
+			background: linear-gradient(135deg, var(--navy-deep), var(--navy));
+			border-left: 6px solid var(--gold);
+			color: var(--white);
+		}
+		.thank-you-panel h2 { margin: 0 0 12px; font-family: "Space Grotesk", sans-serif; font-size: clamp(2rem, 4vw, 3rem); line-height: .96; }
+		.thank-you-panel p { max-width: 760px; margin: 0; color: rgba(255,255,255,.84); line-height: 1.7; }
+		.sponsor-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 22px; }
+		.sponsor-list div { padding: 15px 16px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.18); color: var(--white); font-weight: 700; }
+		.sponsor-list span { display: block; margin-top: 4px; color: var(--gold-soft); font-size: 11px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; }
+		.payment-modal {
+			display: none;
+			position: fixed;
+			inset: 0;
+			z-index: 10;
+			place-items: center;
+			padding: 24px;
+			background: rgba(16, 33, 58, 0.62);
+		}
+		.payment-modal.is-open { display: grid; }
+		.payment-modal-content {
+			position: relative;
+			max-width: 460px;
+			padding: 34px 30px 30px;
+			background: var(--white);
+			border-top: 6px solid var(--gold);
+			box-shadow: 0 18px 50px rgba(16, 33, 58, 0.24);
+			text-align: center;
+		}
+		.payment-modal-content h2 {
+			margin: 0 0 12px;
+			font-family: "Space Grotesk", sans-serif;
+			color: var(--navy);
+		}
+		.payment-modal-content p { margin: 0; color: var(--muted); line-height: 1.6; }
+		.payment-modal-close {
+			position: absolute;
+			top: 10px;
+			right: 14px;
+			border: 0;
+			background: transparent;
+			color: var(--muted);
+			font-size: 24px;
+			line-height: 1;
+			cursor: pointer;
+		}
+		footer {
+			display: flex;
+			justify-content: space-between;
+			max-width: 1200px;
+			margin: 0 auto;
+			padding: 26px 28px 36px;
+			color: #647176;
+			font-size: 12px;
+		}
+		@media (max-width: 860px) {
+			.site-header { padding: 16px 18px; }
+			nav { display: none; }
+			.page-hero { padding: 32px 22px; }
+			.card-grid { grid-template-columns: 1fr; }
+			.sponsor-form,
+			.sponsorship-levels { grid-template-columns: 1fr; }
+			footer { display: block; padding: 20px 24px 28px; }
+			footer span { display: block; margin-top: 8px; }
+		}
+	</style>
+</head>
+<body>
+	<header class="site-header">
+		<a class="brand" href="index.html" aria-label="Go home">
+			<div class="brand-mark" aria-label="FBLA chapter badge">
+				<img class="brand-logo" src="fbla-logo-horizontal-color.png" alt="Future Business Leaders of America">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 90" width="60" height="54" style="margin-right: 20px; flex-shrink: 0;" aria-hidden="true">
+					<polygon points="10,80 42,10 32,80" fill="#213555" />
+					<polygon points="41,80 50,28 59,80" fill="#F4C430" />
+					<polygon points="90,80 58,10 68,80" fill="#213555" />
+				</svg>
+				<div style="display: flex; flex-direction: column; justify-content: center;">
+					<span style="font-size: 28px; font-weight: 800; color: #213555; letter-spacing: 1px; line-height: 1.1;">FBLA</span>
+					<span style="font-size: 14px; font-weight: 700; color: #F4C430; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 2px;">Chapter Member</span>
+					<span style="font-size: 13px; font-weight: 500; color: #555555; margin-top: 4px; border-top: 1px solid #eeeeee; padding-top: 4px;">Manatee School for the Arts</span>
+				</div>
+			</div>
+		</a>
+		<nav aria-label="Main navigation">
+			<a href="index.html">Home</a>
+			<a href="mission.html">Our Mission</a>
+			<a href="events.html">Events</a>
+			<a href="conference.html">Conference</a>
+			<a href="contact.html">Find us</a>
+			<a href="social.html">Social media</a>
+			<a href="sponsor.html">Sponsor</a>
+		</nav>
+	</header>
+	<main>
+		<section class="page-hero">
+			<h1>Sponsor our chapter.</h1>
+			<p>Support student leadership, business education, and community engagement by partnering with Manatee School for the Arts FBLA. Your contribution helps students compete, lead, and grow beyond the classroom.</p>
+			<form id="sponsor-form" style="margin-top: 26px;">
+				<div class="sponsor-form">
+					<label class="amount-option"><input type="radio" name="amount" value="100" checked> Friend - $100</label>
+					<label class="amount-option"><input type="radio" name="amount" value="500"> Bronze - $500</label>
+					<label class="amount-option"><input type="radio" name="amount" value="1000"> Silver - $1,000</label>
+					<label class="amount-option"><input type="radio" name="amount" value="2500"> Gold - $2,500</label>
+					<label class="amount-option"><input type="radio" name="amount" value="5000"> Platinum - $5,000</label>
+					<label class="amount-option"><input type="radio" name="amount" value="250"> T-shirt - $250</label>
+				</div>
+				<div class="hero-actions">
+					<button class="button" type="submit">Become a sponsor</button>
+					<a class="button secondary" href="contact.html">Contact us</a>
+				</div>
+			</form>
+		</section>
+
+		<section class="sponsorship-levels" aria-label="Sponsorship levels">
+			<article class="level-card">
+				<h2>Friend</h2>
+				<div class="level-price">$100</div>
+				<p>Website recognition named as a Friend sponsor.</p>
+			</article>
+			<article class="level-card">
+				<h2>Bronze</h2>
+				<div class="level-price">$500</div>
+				<p>Website advertisement with a URL, a banner in the car loop monthly, and a logo in the school newsletter.</p>
+			</article>
+			<article class="level-card">
+				<h2>Silver</h2>
+				<div class="level-price">$1,000</div>
+				<p>All Bronze benefits, plus an invitation to display at school events and your business name on the MSA FBLA shirt.</p>
+			</article>
+			<article class="level-card">
+				<h2>Gold</h2>
+				<div class="level-price">$2,500</div>
+				<p>All Silver benefits, plus recognition at school performances and two complimentary tickets to a school performance.</p>
+			</article>
+			<article class="level-card">
+				<h2>Platinum</h2>
+				<div class="level-price">$5,000</div>
+				<p>All Gold benefits, plus business advertising on the school marquee sign, four complimentary tickets, and a business logo on the T-shirt.</p>
+			</article>
+			<article class="level-card">
+				<h2>T-shirt</h2>
+				<div class="level-price">$250</div>
+				<p>Your business name and logo added to the MSA FBLA 2026-2027 T-shirt.</p>
+			</article>
+		</section>
+
+		<section class="donation-box" aria-label="General donations">
+			<h2>Donate any amount</h2>
+			<p>Donations of any amount are welcome. Please make checks payable to MSA FBLA.</p>
+			<button class="button" id="payment-button" type="button">Donate through PayPal</button>
+		</section>
+
+		<section class="card-grid">
+			<article class="card">
+				<h2>Why sponsor us?</h2>
+				<p>We build career-ready students through business education, leadership opportunities, and community involvement. Your support directly fuels experiences that help students grow professionally and confidently.</p>
+				<ul>
+					<li>Student competition and travel support</li>
+					<li>Leadership development programming</li>
+					<li>Community outreach and service events</li>
+				</ul>
+			</article>
+			<article class="card">
+				<h2>Sponsorship impact</h2>
+				<p>Every contribution helps us provide access to events, training, and professional experiences that prepare students for the future. Partnerships make these opportunities possible.</p>
+				<ul>
+					<li>Funding chapter events and activities</li>
+					<li>Supporting conference participation</li>
+					<li>Helping students build real-world skills</li>
+				</ul>
+			</article>
+			<article class="card">
+				<h2>How to partner</h2>
+				<p>We welcome sponsors who want to invest in the next generation of leaders. Whether you are a local business or a community supporter, your partnership makes a meaningful difference.</p>
+				<ul>
+					<li>Business sponsorships</li>
+					<li>Event support and donations</li>
+					<li>Community partnership opportunities</li>
+				</ul>
+			</article>
+		</section>
+
+		<section class="thank-you-panel" aria-label="Sponsor appreciation">
+			<h2>Thank you to our sponsors.</h2>
+			<p>Your support helps MSA FBLA students compete, lead, serve, and grow. We are grateful to every business, family, and community partner investing in the future of our chapter.</p>
+			<div class="sponsor-list" aria-label="Sponsor list">
+				<div>Sponsor name<span>Add sponsor here</span></div>
+				<div>Sponsor name<span>Add sponsor here</span></div>
+				<div>Sponsor name<span>Add sponsor here</span></div>
+				<div>Sponsor name<span>Add sponsor here</span></div>
+			</div>
+		</section>
+
+	</main>
+	<div class="payment-modal" id="payment-modal" role="dialog" aria-modal="true" aria-labelledby="payment-modal-title">
+		<div class="payment-modal-content">
+			<button class="payment-modal-close" id="payment-modal-close" type="button" aria-label="Close message">&times;</button>
+			<h2 id="payment-modal-title">Online payments coming soon</h2>
+			<p>Sorry, we are currently setting up online payments. Check back later! Please feel free to call us for more information.</p>
+		</div>
+	</div>
+	<footer>
+		<span>Manatee School for the Arts · FBLA</span>
+		<span>Palmetto, Florida</span>
+	</footer>
+	<script src="site-nav.js"></script>
+	<script>
+		const paymentModal = document.getElementById('payment-modal');
+		const paymentModalClose = document.getElementById('payment-modal-close');
+		const showPaymentNotice = function () {
+			paymentModal.classList.add('is-open');
+		};
+		const closePaymentNotice = function () {
+			paymentModal.classList.remove('is-open');
+		};
+
+		document.getElementById('payment-button').addEventListener('click', showPaymentNotice);
+		paymentModalClose.addEventListener('click', closePaymentNotice);
+		paymentModal.addEventListener('click', function (event) {
+			if (event.target === paymentModal) closePaymentNotice();
+		});
+
+		const sponsorForm = document.getElementById('sponsor-form');
+		if (sponsorForm) {
+			sponsorForm.addEventListener('submit', function (event) {
+				event.preventDefault();
+				showPaymentNotice();
+			});
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Rankings | MSA FBLA</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+	<style>
+		:root {
+			--navy: #1d3253;
+			--navy-deep: #10213a;
+			--gold: #f4c451;
+			--gold-soft: #f7dc87;
+			--cream: #fffdf9;
+			--ink: #1d2a39;
+			--muted: #586877;
+			--line: rgba(29, 50, 83, 0.14);
+			--sky: #edf6ff;
+			--green: #1d7d4d;
+			--orange: #b66a11;
+			--red: #b03e2d;
+		}
+		* { box-sizing: border-box; }
+		.brand-mark svg, .brand-mark > div { display: none !important; }
+		.brand-logo { display: block; width: 220px; height: 58px; object-fit: contain; object-position: left center; }
+		body {
+			margin: 0;
+			background: #f5f5f5;
+			color: var(--ink);
+			font-family: "DM Sans", sans-serif;
+		}
+		a { color: inherit; }
+		.site-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			max-width: 1200px;
+			margin: 0 auto;
+			padding: 18px 26px;
+			background: rgba(255,255,255,0.96);
+			box-shadow: 0 2px 0 rgba(17,33,58,0.05);
+		}
+		.brand { display: inline-flex; align-items: center; text-decoration: none; }
+		.brand-mark {
+			display: inline-flex;
+			align-items: center;
+			background: linear-gradient(180deg, #ffffff 0%, #f9f6f0 100%);
+			border: 2px solid var(--navy);
+			border-radius: 12px;
+			padding: 14px 18px 12px 14px;
+			box-shadow: 0 8px 18px rgba(17, 33, 58, 0.08);
+		}
+		nav {
+			display: flex;
+			gap: 22px;
+			font-size: 12px;
+			font-weight: 700;
+			letter-spacing: 0.14em;
+			text-transform: uppercase;
+		}
+		nav a {
+			text-decoration: none;
+			color: var(--navy);
+		}
+		main {
+			max-width: 1200px;
+			margin: 0 auto;
+			padding: 32px 22px 54px;
+		}
+		.hero {
+			padding: 40px 32px;
+			background: linear-gradient(135deg, var(--navy-deep) 0%, var(--navy) 42%, #22466a 100%);
+			color: var(--cream);
+			border-radius: 22px;
+		}
+		.hero h1 {
+			margin: 0 0 12px;
+			font-family: "Space Grotesk", sans-serif;
+			font-size: clamp(2.5rem, 5vw, 4.2rem);
+			letter-spacing: -0.06em;
+		}
+		.hero p {
+			margin: 0;
+			max-width: 700px;
+			font-size: 1.05rem;
+			line-height: 1.7;
+			color: rgba(255,255,255,0.82);
+		}
+		.table-wrap {
+			margin-top: 26px;
+			background: #ffffff;
+			border: 1px solid #dfeaf8;
+			border-radius: 18px;
+			overflow: hidden;
+		}
+		table {
+			width: 100%;
+			border-collapse: collapse;
+		}
+		th, td {
+			padding: 18px 20px;
+			border-bottom: 1px solid #dfeaf8;
+			text-align: left;
+		}
+		th {
+			background: #edf5ff;
+			color: var(--navy);
+			font-size: 11px;
+			letter-spacing: 0.14em;
+			text-transform: uppercase;
+		}
+		td {
+			font-weight: 600;
+		}
+		.status {
+			display: inline-block;
+			padding: 7px 10px;
+			border-radius: 999px;
+			font-size: 11px;
+			font-weight: 700;
+			letter-spacing: 0.06em;
+			text-transform: uppercase;
+		}
+		.state { background: #dff7ea; color: var(--green); }
+		.national { background: #fff1cf; color: var(--orange); }
+		.none { background: #fbe5e2; color: var(--red); }
+		.tbd { background: #f4f7fb; color: var(--muted); }
+		.chapter-rankings { margin-top: 26px; }
+		.chapter-rankings h2 { margin: 0 0 12px; color: var(--navy); font-family: "Space Grotesk", sans-serif; font-size: 2rem; }
+		.chapter-rankings p { margin: 0 0 16px; color: var(--muted); line-height: 1.6; }
+		footer {
+			display: flex;
+			justify-content: space-between;
+			max-width: 1200px;
+			margin: 0 auto;
+			padding: 22px 26px 34px;
+			color: #647176;
+			font-size: 12px;
+		}
+		@media (max-width: 700px) {
+			nav { display: none; }
+			.site-header { padding: 16px 18px; }
+			.hero { padding: 30px 20px; }
+			th, td { padding: 14px 12px; }
+			footer { display: block; }
+		}
+	</style>
+</head>
+<body>
+	<header class="site-header">
+		<a class="brand" href="index.html" aria-label="Manatee School for the Arts home">
+			<div class="brand-mark" aria-label="FBLA chapter badge">
+				<img class="brand-logo" src="fbla-logo-horizontal-color.png" alt="Future Business Leaders of America">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 90" width="60" height="54" style="margin-right:18px; flex-shrink:0;" aria-hidden="true">
+					<polygon points="10,80 42,10 32,80" fill="#213555" />
+					<polygon points="41,80 50,28 59,80" fill="#F4C430" />
+					<polygon points="90,80 58,10 68,80" fill="#213555" />
+				</svg>
+				<div style="display:flex; flex-direction:column; justify-content:center;">
+					<span style="font-size:28px; font-weight:800; color:#213555; letter-spacing:1px; line-height:1.1;">FBLA</span>
+					<span style="font-size:14px; font-weight:700; color:#F4C430; text-transform:uppercase; letter-spacing:1.5px; margin-top:2px;">Chapter Member</span>
+					<span style="font-size:13px; font-weight:500; color:#555555; margin-top:4px; border-top:1px solid #eeeeee; padding-top:4px;">Manatee School for the Arts</span>
+				</div>
+			</div>
+		</a>
+		<nav aria-label="Main navigation">
+			<a href="index.html">Home</a>
+			<a href="mission.html">Mission</a>
+			<a href="events.html">Events</a>
+			<a href="conference.html">Conference</a>
+			<a href="rankings.html">Rankings</a>
+			<a href="social.html">Social</a>
+		</nav>
+	</header>
+
+	<main>
+		<section class="hero">
+			<h1>Member rankings</h1>
+			<p>Updated results are shown below with each student’s placement and whether they qualified for state or nationals.</p>
+		</section>
+
+		<section class="chapter-rankings" aria-label="Chapter rankings">
+			<h2>Chapter rankings</h2>
+			<p>Competition and event results, including States and Nationals status.</p>
+			<div class="table-wrap">
+				<table>
+					<thead>
+						<tr>
+							<th>Member</th>
+							<th>Event</th>
+							<th>States</th>
+							<th>Nationals</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr><td>Member 1</td><td>TBD</td><td><span class="status tbd">TBD</span></td><td><span class="status tbd">TBD</span></td></tr>
+						<tr><td>Member 2</td><td>TBD</td><td><span class="status tbd">TBD</span></td><td><span class="status tbd">TBD</span></td></tr>
+						<tr><td>Member 3</td><td>TBD</td><td><span class="status tbd">TBD</span></td><td><span class="status tbd">TBD</span></td></tr>
+						<tr><td>Member 4</td><td>TBD</td><td><span class="status tbd">TBD</span></td><td><span class="status tbd">TBD</span></td></tr>
+						<tr><td>Member 5</td><td>TBD</td><td><span class="status tbd">TBD</span></td><td><span class="status tbd">TBD</span></td></tr>
+						<tr><td>Member 6</td><td>TBD</td><td><span class="status tbd">TBD</span></td><td><span class="status tbd">TBD</span></td></tr>
+						<tr><td>Member 7</td><td>TBD</td><td><span class="status tbd">TBD</span></td><td><span class="status tbd">TBD</span></td></tr>
+						<tr><td>Member 8</td><td>TBD</td><td><span class="status tbd">TBD</span></td><td><span class="status tbd">TBD</span></td></tr>
+						<tr><td>Member 9</td><td>TBD</td><td><span class="status tbd">TBD</span></td><td><span class="status tbd">TBD</span></td></tr>
+						<tr><td>Member 10</td><td>TBD</td><td><span class="status tbd">TBD</span></td><td><span class="status tbd">TBD</span></td></tr>
+					</tbody>
+				</table>
+			</div>
+		</section>
+	</main>
+
+	<footer>
+		<span>Manatee School for the Arts · FBLA</span>
+		<span>Palmetto, Florida</span>
+	</footer>
+	<script src="site-nav.js"></script>
+</body>
+</html>

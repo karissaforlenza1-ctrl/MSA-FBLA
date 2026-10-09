@@ -1,0 +1,7 @@
+# Backup archives - not part of the live website
+*.zip
+
+# Windows / editor clutter
+Thumbs.db
+Desktop.ini
+.vscode/

@@ -1,0 +1,17 @@
+{
+  "name": "MSA FBLA App",
+  "short_name": "MSA FBLA",
+  "description": "Mobile app for the Manatee School for the Arts FBLA chapter.",
+  "start_url": "/app/",
+  "display": "standalone",
+  "background_color": "#f8f5ee",
+  "theme_color": "#1d3253",
+  "icons": [
+    {
+      "src": "FL_FBLA_logo.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isSelf(userId) {
+      return signedIn() && request.auth.uid == userId;
+    }
+
+    function isCoordinator() {
+      return signedIn()
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'coordinator';
+    }
+
+    match /users/{userId} {
+      allow create: if isSelf(userId)
+        && request.resource.data.role == 'member';
+      allow read: if isSelf(userId) || isCoordinator();
+      allow update: if isSelf(userId)
+        && request.resource.data.role == resource.data.role;
+      allow delete: if false;
+    }
+
+    match /messages/{messageId} {
+      allow create: if signedIn()
+        && request.resource.data.senderUsername is string
+        && request.resource.data.recipientName is string
+        && request.resource.data.text is string;
+      allow read: if signedIn();
+      allow update, delete: if false;
+    }
+
+    match /coordinatorMessages/{messageId} {
+      allow create: if isCoordinator()
+        && request.resource.data.toUsername is string
+        && request.resource.data.text is string;
+      allow read: if isCoordinator()
+        || (signedIn() && resource.data.toUsername == get(/databases/$(database)/documents/users/$(request.auth.uid)).data.username);
+      allow update, delete: if false;
+    }
+  }
+}

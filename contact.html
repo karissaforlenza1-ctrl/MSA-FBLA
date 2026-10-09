@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Find Us | MSA FBLA</title>
+	<style>
+		:root {
+			--navy: #1d3253;
+			--navy-deep: #10213a;
+			--gold: #f4c451;
+			--paper: #f8f5ee;
+			--white: #ffffff;
+			--ink: #1d2a39;
+			--muted: #586877;
+			--sky: #edf6ff;
+		}
+		* { box-sizing: border-box; }
+		.brand-mark svg, .brand-mark > div { display: none !important; }
+		.brand-logo { display: block; width: 220px; height: 58px; object-fit: contain; object-position: left center; }
+		body { margin: 0; background: var(--white); color: var(--ink); font-family: "Segoe UI", Arial, sans-serif; }
+		a { color: inherit; }
+		.site-header { display: flex; align-items: center; justify-content: space-between; max-width: 1240px; margin: 0 auto; padding: 26px 32px 18px; }
+		.brand { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; }
+		.brand-mark { display: inline-flex; align-items: center; background: linear-gradient(180deg, #ffffff 0%, #f9f6f0 100%); border: 2px solid var(--navy); border-radius: 12px; padding: 16px 22px 14px 18px; box-shadow: 0 8px 18px rgba(17, 33, 58, 0.08); max-width: 500px; }
+		nav { display: flex; gap: 24px; flex-wrap: wrap; font-size: 14px; font-weight: 700; }
+		nav a { text-decoration: none; color: var(--navy); letter-spacing: .04em; }
+		main { max-width: 1240px; margin: 0 auto; padding: 18px 18px 60px; }
+		.page-hero { padding: 50px 48px; margin: 20px 0 28px; background: linear-gradient(135deg, var(--navy-deep) 0%, var(--navy) 42%, #22466a 100%); border-radius: 26px; color: var(--white); }
+		.page-hero h1 { margin: 0 0 12px; font-size: clamp(2.6rem, 6vw, 5rem); line-height: 1; }
+		.page-hero p { margin: 0; max-width: 700px; font-size: 1.1rem; line-height: 1.7; color: rgba(255,255,255,0.83); }
+		.grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; }
+		.card { background: var(--sky); border: 1px solid #dfeaf8; border-radius: 20px; padding: 30px 28px; box-shadow: 0 10px 26px rgba(20, 43, 76, 0.05); }
+		.card h2 { margin: 0 0 18px; font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--navy); }
+		.card p, .card a { font-size: 1.05rem; line-height: 1.6; color: var(--ink); text-decoration: none; }
+		.card a.action-link { display: inline-flex; margin-top: 18px; color: var(--navy); font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+		.card a.action-link::after { content: "→"; margin-left: 8px; color: var(--gold); font-size: 1.2rem; }
+		.contact-note { margin-top: 18px; padding: 22px 24px; background: var(--navy); color: var(--white); }
+		.contact-note h2 { margin: 0 0 8px; font-family: "Space Grotesk", sans-serif; font-size: 1.8rem; }
+		.contact-note p { margin: 0; color: rgba(255,255,255,.82); line-height: 1.7; }
+		.card.accent { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-deep) 100%); color: var(--white); }
+		.card.accent h2, .card.accent p, .card.accent a { color: var(--white); }
+		footer { display: flex; justify-content: space-between; max-width: 1240px; margin: 0 auto; padding: 24px 32px 36px; color: #647176; font-size: 12px; }
+		@media (max-width: 700px) { .site-header { padding: 18px 20px; } nav { display: none; } .grid { grid-template-columns: 1fr; } .page-hero { padding: 32px 22px; } footer { display: block; padding: 20px 24px; } }
+	</style>
+</head>
+<body>
+	<header class="site-header">
+		<a class="brand" href="index.html" aria-label="Go home">
+			<div class="brand-mark" aria-label="FBLA chapter badge">
+				<img class="brand-logo" src="fbla-logo-horizontal-color.png" alt="Future Business Leaders of America">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 90" width="60" height="54" style="margin-right: 20px; flex-shrink: 0;" aria-hidden="true">
+					<polygon points="10,80 42,10 32,80" fill="#213555" />
+					<polygon points="41,80 50,28 59,80" fill="#F4C430" />
+					<polygon points="90,80 58,10 68,80" fill="#213555" />
+				</svg>
+				<div style="display: flex; flex-direction: column; justify-content: center;">
+					<span style="font-size: 28px; font-weight: 800; color: #213555; letter-spacing: 1px; line-height: 1.1;">FBLA</span>
+					<span style="font-size: 14px; font-weight: 700; color: #F4C430; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 2px;">Chapter Member</span>
+					<span style="font-size: 13px; font-weight: 500; color: #555555; margin-top: 4px; border-top: 1px solid #eeeeee; padding-top: 4px;">Manatee School for the Arts</span>
+				</div>
+			</div>
+		</a>
+		<nav aria-label="Main navigation">
+			<a href="index.html">Home</a>
+			<a href="mission.html">Our Mission</a>
+			<a href="events.html">Events</a>
+			<a href="conference.html">Conference</a>
+			<a href="contact.html">Find us</a>
+			<a href="social.html">Social media</a>
+			<a href="sponsor.html">Sponsor</a>
+		</nav>
+	</header>
+	<main>
+		<section class="page-hero">
+			<div class="tag">Visit and connect</div>
+			<h1>Find us.</h1>
+			<p>Visit our campus, reach out by phone, or connect with the chapter to learn more about our upcoming projects and meetings.</p>
+		</section>
+		<section class="grid">
+			<div class="card">
+				<h2>Campus address</h2>
+				<p>700 Haben Boulevard<br>Palmetto, FL 34221</p>
+				<a class="action-link" href="https://maps.google.com/?q=700+Haben+Boulevard+Palmetto+FL+34221" target="_blank" rel="noopener">Open map</a>
+			</div>
+			<div class="card accent">
+				<h2>Call the school</h2>
+				<p><a href="tel:+19417216800">(941) 721-6800</a></p>
+				<a class="action-link" href="tel:+19417216800">Call now</a>
+			</div>
+			<div class="card">
+				<h2>Hours</h2>
+				<p>8:00 AM – 5:00 PM</p>
+				<a class="action-link" href="mailto:themsafbla@msa.raeschools.org">Email the chapter</a>
+			</div>
+		</section>
+		<section class="contact-note">
+			<h2>Have a question for MSA FBLA?</h2>
+			<p>Reach out before a meeting, event, or sponsorship conversation and we will help you find the right person.</p>
+		</section>
+	</main>
+	<footer>
+		<span>Manatee School for the Arts · FBLA</span>
+		<span>Palmetto, Florida</span>
+	</footer>
+	<script src="site-nav.js"></script>
+</body>
+</html>

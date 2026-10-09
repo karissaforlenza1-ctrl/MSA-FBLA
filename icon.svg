@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="MSA FBLA icon">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#0d6f70"/>
+      <stop offset="100%" stop-color="#064b52"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="120" fill="url(#bg)"/>
+  <circle cx="256" cy="256" r="170" fill="#f8f5ee" opacity="0.12"/>
+  <circle cx="256" cy="256" r="126" fill="#fffdf8" opacity="0.12"/>
+  <circle cx="256" cy="256" r="98" fill="#ef775f"/>
+  <text x="256" y="286" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="118" font-weight="700" fill="#fffdf8">MSA</text>
+</svg>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Events | MSA FBLA</title>
+	<style>
+		:root {
+			--navy: #1d3253;
+			--navy-deep: #10213a;
+			--gold: #f4c451;
+			--paper: #f8f5ee;
+			--white: #ffffff;
+			--ink: #1d2a39;
+			--muted: #586877;
+			--sky: #edf6ff;
+			--line: rgba(29, 50, 83, 0.14);
+			--red: #d9472f;
+		}
+		* { box-sizing: border-box; }
+		.brand-mark svg, .brand-mark > div { display: none !important; }
+		.brand-logo { display: block; width: 220px; height: 58px; object-fit: contain; object-position: left center; }
+		body { margin: 0; background: var(--white); color: var(--ink); font-family: "Segoe UI", Arial, sans-serif; }
+		a { color: inherit; }
+		.site-header { display: flex; align-items: center; justify-content: space-between; max-width: 1240px; margin: 0 auto; padding: 26px 32px 18px; }
+		.brand { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; }
+		.brand-mark { display: inline-flex; align-items: center; background: linear-gradient(180deg, #ffffff 0%, #f9f6f0 100%); border: 2px solid var(--navy); border-radius: 12px; padding: 16px 22px 14px 18px; box-shadow: 0 8px 18px rgba(17, 33, 58, 0.08); max-width: 500px; }
+		nav { display: flex; gap: 24px; flex-wrap: wrap; font-size: 14px; font-weight: 700; }
+		nav a { text-decoration: none; color: var(--navy); letter-spacing: .04em; }
+		main { max-width: 1240px; margin: 0 auto; padding: 18px 18px 60px; }
+		.page-hero { padding: 50px 48px; margin: 20px 0 28px; background: linear-gradient(135deg, var(--navy-deep) 0%, var(--navy) 42%, #22466a 100%); border-radius: 26px; color: var(--white); }
+		.page-hero h1 { margin: 0 0 12px; font-size: clamp(2.6rem, 6vw, 5rem); line-height: 1; }
+		.page-hero p { margin: 0; max-width: 700px; font-size: 1.1rem; line-height: 1.7; color: rgba(255,255,255,0.83); }
+		.grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+		.card { background: var(--sky); border: 1px solid #dfeaf8; border-radius: 20px; padding: 30px 28px; box-shadow: 0 10px 26px rgba(20, 43, 76, 0.05); }
+		.card .tag { display: inline-block; margin-bottom: 18px; color: var(--navy); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 800; }
+		.card h2 { margin: 0 0 12px; font-size: 1.7rem; }
+		.card p { margin: 0; color: var(--muted); line-height: 1.7; }
+		.event-date { display: inline-flex; margin: 0 0 18px; padding: 8px 11px; background: var(--navy); color: var(--gold); font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+		.event-details { margin-top: 18px !important; padding-top: 16px; border-top: 1px solid var(--line); }
+		.event-details strong { color: var(--navy); }
+		.event-cta { display: inline-flex; margin-top: 22px; padding: 13px 16px; background: var(--gold); color: var(--navy-deep); font-size: 12px; font-weight: 800; letter-spacing: .1em; text-decoration: none; text-transform: uppercase; }
+		.event-cta:hover { background: #ffe7a0; }
+		.card:nth-child(2) { border-top: 5px solid var(--gold); }
+		.card:nth-child(1) { border-top: 5px solid var(--red); }
+		.email-link { color: #111111; font-weight: 700; text-decoration: none; }
+		footer { display: flex; justify-content: space-between; max-width: 1240px; margin: 0 auto; padding: 24px 32px 36px; color: #647176; font-size: 12px; }
+		@media (max-width: 700px) { .site-header { padding: 18px 20px; } nav { display: none; } .grid { grid-template-columns: 1fr; } .page-hero { padding: 32px 22px; } footer { display: block; padding: 20px 24px; } }
+	</style>
+</head>
+<body>
+	<header class="site-header">
+		<a class="brand" href="index.html" aria-label="Go home">
+			<div class="brand-mark" aria-label="FBLA chapter badge">
+				<img class="brand-logo" src="fbla-logo-horizontal-color.png" alt="Future Business Leaders of America">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 90" width="60" height="54" style="margin-right: 20px; flex-shrink: 0;" aria-hidden="true">
+					<polygon points="10,80 42,10 32,80" fill="#213555" />
+					<polygon points="41,80 50,28 59,80" fill="#F4C430" />
+					<polygon points="90,80 58,10 68,80" fill="#213555" />
+				</svg>
+				<div style="display: flex; flex-direction: column; justify-content: center;">
+					<span style="font-size: 28px; font-weight: 800; color: #213555; letter-spacing: 1px; line-height: 1.1;">FBLA</span>
+					<span style="font-size: 14px; font-weight: 700; color: #F4C430; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 2px;">Chapter Member</span>
+					<span style="font-size: 13px; font-weight: 500; color: #555555; margin-top: 4px; border-top: 1px solid #eeeeee; padding-top: 4px;">Manatee School for the Arts</span>
+				</div>
+			</div>
+		</a>
+		<nav aria-label="Main navigation">
+			<a href="index.html">Home</a>
+			<a href="mission.html">Our Mission</a>
+			<a href="events.html">Events</a>
+			<a href="conference.html">Conference</a>
+			<a href="contact.html">Find us</a>
+			<a href="social.html">Social media</a>
+			<a href="sponsor.html">Sponsor</a>
+		</nav>
+	</header>
+	<main>
+		<section class="page-hero">
+			<div class="tag">MSA FBLA calendar</div>
+			<h1>Upcoming events.</h1>
+			<p>Our chapter is active, service-driven, and always looking for ways to lead, serve, and grow together.</p>
+		</section>
+		<section class="grid">
+			<div class="card">
+				<div class="tag">Next event</div>
+				<div class="event-date">September 12, 2026</div>
+				<h2>Suncoast Reef and Beach Cleanup</h2>
+				<p class="event-details"><strong>Time:</strong> 7:15 AM - 5:00 PM</p>
+				<a class="event-cta" href="mailto:themsafbla@msa.raeschools.org">Ask about this event</a>
+			</div>
+			<div class="card">
+				<div class="tag">Next service event</div>
+				<div class="event-date">October 11, 2026</div>
+				<h2>Stuff the Bus</h2>
+				<p class="event-details"><strong>Location:</strong> Publix of Palmetto, 1101 8th Ave West<br><strong>Time:</strong> All day</p>
+				<a class="event-cta" href="mailto:themsafbla@msa.raeschools.org">Ask about this event</a>
+			</div>
+			<div class="card">
+				<div class="tag">Community service</div>
+				<div class="event-date">December 19, 2026</div>
+				<h2>Wreaths Across America</h2>
+				<p class="event-details"><strong>Location:</strong> Sarasota National Cemetery</p>
+				<a class="event-cta" href="mailto:themsafbla@msa.raeschools.org">Ask about this event</a>
+			</div>
+		</section>
+		<section class="card" style="margin-top: 18px;">
+			<div class="tag">Contact</div>
+			<h2>Chapter email</h2>
+			<p><a class="email-link" href="mailto:themsafbla@msa.raeschools.org">themsafbla@msa.raeschools.org</a></p>
+		</section>
+	</main>
+	<footer>
+		<span>Manatee School for the Arts · FBLA</span>
+		<span>Palmetto, Florida</span>
+	</footer>
+	<script src="site-nav.js"></script>
+</body>
+</html>

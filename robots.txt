@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://karissaforlenza1-ctrl.github.io/MSA-FBLA/sitemap.xml
