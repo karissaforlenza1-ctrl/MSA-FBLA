@@ -3,7 +3,6 @@
 # Leave this window open while you work; minimize it if you like.
 # Press Ctrl+C to stop.
 
-$ErrorActionPreference = "Stop"
 $repo = Split-Path -Parent $MyInvocation.MyCommand.Path
 Set-Location $repo
 
@@ -34,7 +33,7 @@ function Publish-Site {
 }
 
 # Publish anything pending from before the watcher started
-Publish-Site
+try { Publish-Site } catch { Write-Host "Publish error: $_" -ForegroundColor Red }
 
 $watcher = New-Object System.IO.FileSystemWatcher
 $watcher.Path = $repo
