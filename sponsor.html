@@ -329,7 +329,7 @@
 					<label class="amount-option"><input type="radio" name="amount" value="250"> T-shirt - $250</label>
 				</div>
 				<div class="hero-actions">
-					<button class="button" type="submit">Become a sponsor</button>
+					<a class="button" href="https://www.clover.com/pay-widgets/5f85bdae-c675-4684-b40c-e1ce021fca93" target="_blank" rel="noopener" onclick="const s=this.closest('form').querySelector('input[name=amount]:checked'); if(s){ try{ sessionStorage.setItem('msaSponsorLevel', s.closest('label').textContent.trim()); }catch(e){} }">Become a sponsor</a>
 					<a class="button secondary" href="contact.html">Contact us</a>
 				</div>
 			</form>
@@ -421,17 +421,5 @@
 		<span>Palmetto, Florida</span>
 	</footer>
 	<script src="site-nav.js"></script>
-	<script>
-		const sponsorForm = document.getElementById('sponsor-form');
-		if (sponsorForm) {
-			sponsorForm.addEventListener('submit', function (event) {
-				event.preventDefault();
-				const selected = sponsorForm.querySelector('input[name="amount"]:checked');
-				const level = selected ? selected.closest('label').textContent.trim() : 'custom amount';
-				window.open('https://www.clover.com/pay-widgets/5f85bdae-c675-4684-b40c-e1ce021fca93', '_blank', 'noopener');
-				alert('Thank you for choosing the ' + level + ' sponsorship! Complete your payment on the Clover page that just opened.');
-			});
-		}
-	</script>
 </body>
 </html>
