@@ -25,7 +25,7 @@ function Publish-Site {
     Write-Host "[$stamp] Changes found - publishing to live website..." -ForegroundColor Yellow
     $output = git push origin main 2>&1 | Out-String
     if ($LASTEXITCODE -eq 0) {
-        Write-Host "[$stamp] Done! Live in about 1-2 minutes: https://msafbla.github.io/MSA-FBLA/" -ForegroundColor Green
+        Write-Host "[$stamp] Done! Live in about 1-2 minutes: https://msa-fbla.github.io/MSA-FBLA/" -ForegroundColor Green
     } else {
         Write-Host "[$stamp] Push failed. Check your internet connection, then save again to retry." -ForegroundColor Red
         Write-Host $output -ForegroundColor DarkRed

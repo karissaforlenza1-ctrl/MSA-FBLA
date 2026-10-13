@@ -1,4 +1,4 @@
 ﻿User-agent: *
 Allow: /
 
-Sitemap: https://msafbla.github.io/MSA-FBLA/sitemap.xml
+Sitemap: https://msa-fbla.github.io/MSA-FBLA/sitemap.xml
