@@ -1,4 +1,4 @@
-# MSA FBLA Auto-Publisher
+﻿# MSA FBLA Auto-Publisher
 # Watches the website folder and automatically pushes changes to GitHub Pages.
 # Leave this window open while you work; minimize it if you like.
 # Press Ctrl+C to stop.
@@ -25,7 +25,7 @@ function Publish-Site {
     Write-Host "[$stamp] Changes found - publishing to live website..." -ForegroundColor Yellow
     $output = git push origin main 2>&1 | Out-String
     if ($LASTEXITCODE -eq 0) {
-        Write-Host "[$stamp] Done! Live in about 1-2 minutes: https://karissaforlenza1-ctrl.github.io/MSA-FBLA/" -ForegroundColor Green
+        Write-Host "[$stamp] Done! Live in about 1-2 minutes: https://msafbla.github.io/MSA-FBLA/" -ForegroundColor Green
     } else {
         Write-Host "[$stamp] Push failed. Check your internet connection, then save again to retry." -ForegroundColor Red
         Write-Host $output -ForegroundColor DarkRed
