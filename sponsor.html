@@ -407,7 +407,7 @@
 		<section class="donation-box" aria-label="General donations">
 			<h2>Donate any amount</h2>
 			<p>Donations of any amount are welcome. Please make checks payable to MSA FBLA.</p>
-			<button class="button" id="payment-button" type="button">Donate through PayPal</button>
+			<a class="button" href="https://www.clover.com/pay-widgets/5f85bdae-c675-4684-b40c-e1ce021fca93" target="_blank" rel="noopener">Donate here!</a>
 		</section>
 
 		<section class="card-grid">
@@ -474,7 +474,6 @@
 			paymentModal.classList.remove('is-open');
 		};
 
-		document.getElementById('payment-button').addEventListener('click', showPaymentNotice);
 		paymentModalClose.addEventListener('click', closePaymentNotice);
 		paymentModal.addEventListener('click', function (event) {
 			if (event.target === paymentModal) closePaymentNotice();
